@@ -1,0 +1,54 @@
+# 应用配置 - 支持灵活配置与多环境部署
+server:
+  port: 8080
+
+# xDM-F 代理配置（可扩展：支持多租户、多环境）
+xdm:
+  # true=不连接 8003，返回 Mock 数据（队友无 8003 环境时开启，可本地开发看效果）
+  mock-mode: ${XDM_MOCK_MODE:false}
+  # D:\EGS\API 实例名称优先：实体映射文件路径，用于转发时优先尝试 API 中的实例名
+  api-entity-mapping-path: ${XDM_API_ENTITY_MAPPING:D:/EGS/API/entity-mapping.yaml}
+  # xDM-F 服务地址，部署时可通过环境变量 XDM_BASE_URL 覆盖
+  base-url: ${XDM_BASE_URL:http://127.0.0.1:8003/rdm_3f5e31761ec249ea9dace6b96dd92e6a_app/services}
+  # API 路径前缀。405 时自动尝试备用路径 rdm/basic/api/dynamic
+  api-path-prefix: ${XDM_API_PATH:dynamic/api}
+  # 当 xDM-F list 不返回 password 时，是否允许登录（演示模式，仅用于开发/赛题）
+  login-allow-no-password: ${XDM_LOGIN_ALLOW_NO_PWD:true}
+  # 默认应用 ID（需与 xDM-F 路径中 rdm_xxx_app 的 xxx 一致）
+  application-id: ${XDM_APPLICATION_ID:3f5e31761ec249ea9dace6b96dd92e6a}
+  # 默认租户 ID
+  tenant-id: ${XDM_TENANT_ID:-1}
+  # 默认用户 ID
+  default-user-id: ${XDM_USER_ID:1}
+  # 默认鉴权 Token
+  default-auth-token: ${XDM_AUTH_TOKEN:1}
+  # Referer/Origin（鉴权用）
+  referer: ${XDM_REFERER:http://127.0.0.1:8003/}
+  origin: ${XDM_ORIGIN:http://127.0.0.1:8003}
+
+# CORS 跨域配置（可扩展：支持多前端地址）
+cors:
+  allowed-origins: ${CORS_ORIGINS:http://127.0.0.1:5173,http://localhost:5173}
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: "Origin,X-Requested-With,Content-Type,Accept,Authorization,x-auth-token,x-csrf-token,X-XDM-Cookie,X-CSRF-TOKEN,X-XSRF-TOKEN"
+  allow-credentials: true
+  max-age: 3600
+
+# 视觉质检：true=演示模式（模拟检测，禁止同步至 xDM-F），false=接入真实 CV 后开放同步
+# green-business-url：检测到次品时调用浪费折算接口（智能质检×环保指标）
+cv:
+  demo-mode: ${CV_DEMO_MODE:true}
+  green-business-url: ${CV_GREEN_BUSINESS_URL:http://127.0.0.1:8001}
+  # true=生产方案不转发 8001，直接返回演示方案（绕过 405）
+  production-plan-bypass-8001: ${CV_PRODUCTION_PLAN_BYPASS_8001:true}
+
+# 千问（Qwen）LLM 配置 - 产品制造知识问答
+qwen:
+  api-key: sk-1f09f7548ca04ccaae263c3b2fea635b
+  base-url: ${QWEN_BASE_URL:https://dashscope.aliyuncs.com/compatible-mode/v1}
+  model: ${QWEN_MODEL:qwen-plus}
+
+logging:
+  level:
+    com.example: INFO
+    org.springframework.web: INFO

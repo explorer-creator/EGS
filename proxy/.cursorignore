@@ -1,0 +1,6 @@
+target/
+.idea/
+.git/
+node_modules/
+# 如果你不打算改 SDK 源码，也可以把它加进来
+iDME_SDK_Directory/

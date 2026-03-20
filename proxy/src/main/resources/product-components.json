@@ -1,0 +1,127 @@
+{
+  "productKeywords": {
+    "耳机": ["扬声器", "动圈", "外壳", "PCB", "麦克风"],
+    "充电宝": ["电芯", "BMS", "外壳", "PCB", "接口"],
+    "锂电池": ["电芯", "BMS", "正负极", "隔膜"],
+    "行星减速器": ["行星齿轮", "太阳轮", "齿圈", "输出轴", "壳体"],
+    "减速器": ["行星齿轮", "太阳轮", "齿圈", "输出轴", "壳体"],
+    "电路板": ["PCB基板", "电子元件", "SMT", "焊点"],
+    "PCB": ["PCB基板", "电子元件", "SMT", "焊点"]
+  },
+  "components": [
+    {
+      "name": "动圈扬声器",
+      "desc": "耳机核心发声单元，将电信号转化为声波",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=1",
+      "tags": ["扬声器", "动圈"]
+    },
+    {
+      "name": "耳机外壳",
+      "desc": "注塑成型的外壳，保护内部元件并影响声学结构",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=2",
+      "tags": ["外壳"]
+    },
+    {
+      "name": "耳机PCB",
+      "desc": "控制电路板，集成蓝牙芯片、DAC、功放等",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=3",
+      "tags": ["PCB"]
+    },
+    {
+      "name": "MEMS麦克风",
+      "desc": "微型麦克风，用于通话降噪与语音助手",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=4",
+      "tags": ["麦克风"]
+    },
+    {
+      "name": "锂电池电芯",
+      "desc": "18650或聚合物电芯，提供储能核心",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=5",
+      "tags": ["电芯", "锂电池"]
+    },
+    {
+      "name": "BMS管理板",
+      "desc": "电池管理系统，负责充放电保护与均衡",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=6",
+      "tags": ["BMS"]
+    },
+    {
+      "name": "充电宝外壳",
+      "desc": "铝合金或塑料外壳，保护内部电路与电芯",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=2",
+      "tags": ["外壳"]
+    },
+    {
+      "name": "Type-C接口",
+      "desc": "充电与放电接口，支持快充协议",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=7",
+      "tags": ["接口"]
+    },
+    {
+      "name": "锂电正负极",
+      "desc": "正极材料（如三元/磷酸铁锂）与负极石墨",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=8",
+      "tags": ["正负极"]
+    },
+    {
+      "name": "隔膜",
+      "desc": "锂离子电池隔膜，防止正负极短路",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=9",
+      "tags": ["隔膜"]
+    },
+    {
+      "name": "行星齿轮组",
+      "desc": "由太阳轮、行星轮、齿圈组成的传动机构",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=10",
+      "tags": ["行星齿轮"]
+    },
+    {
+      "name": "太阳轮",
+      "desc": "行星减速器中心齿轮，输入动力",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=11",
+      "tags": ["太阳轮"]
+    },
+    {
+      "name": "齿圈",
+      "desc": "内齿圈，与行星轮啮合，通常固定或输出",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=12",
+      "tags": ["齿圈"]
+    },
+    {
+      "name": "输出轴",
+      "desc": "减速器输出端，连接负载传递扭矩",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=13",
+      "tags": ["输出轴"]
+    },
+    {
+      "name": "减速器壳体",
+      "desc": "铝合金或铸铁壳体，支撑齿轮与轴承",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=14",
+      "tags": ["壳体"]
+    },
+    {
+      "name": "PCB基板",
+      "desc": "覆铜层压板，承载电子元件的载体",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=15",
+      "tags": ["PCB基板"]
+    },
+    {
+      "name": "电子元件",
+      "desc": "电阻、电容、芯片等贴片或插装元件",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=16",
+      "tags": ["电子元件"]
+    },
+    {
+      "name": "SMT贴片",
+      "desc": "表面贴装工艺焊接的元器件",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=17",
+      "tags": ["SMT"]
+    },
+    {
+      "name": "焊点",
+      "desc": "回流焊或波峰焊形成的电气连接点",
+      "imageUrl": "https://placehold.co/280x180/e8f4ff/165DFF?text=18",
+      "tags": ["焊点"]
+    }
+  ]
+}

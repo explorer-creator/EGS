@@ -1,0 +1,98 @@
+{
+  "productKeywords": {
+    "耳机": ["耳机", "扬声器", "动圈", "耳机配件", "注塑", "声学"],
+    "充电宝": ["充电宝", "锂电池", "电源管理", "移动电源", "外壳", "PCB", "BMS"],
+    "锂电池": ["锂电池", "电芯", "BMS", "锂电", "储能"],
+    "行星减速器": ["行星减速器", "减速器", "齿轮", "减速机", "精密传动", "机械加工"],
+    "减速器": ["减速器", "齿轮", "减速机", "精密传动", "机械加工"],
+    "电路板": ["电路板", "PCB", "SMT", "电子制造", "贴片"],
+    "PCB": ["PCB", "电路板", "SMT", "电子制造"],
+    "模具": ["注塑", "模具", "机械加工"]
+  },
+  "companies": [
+    {
+      "name": "瑞声科技",
+      "intro": "全球领先的微型声学器件及精密制造方案提供商，扬声器、受话器、麦克风等声学元件研发生产，服务消费电子、汽车电子等领域。",
+      "contact": "官网：https://www.aac.com | 电话：400-888-5188",
+      "website": "https://www.aac.com",
+      "tags": ["扬声器", "声学", "耳机"]
+    },
+    {
+      "name": "歌尔股份",
+      "intro": "智能声学整机与精密零组件制造商，涵盖耳机、音箱、可穿戴设备等，具备从声学设计到整机交付的全产业链能力。",
+      "contact": "官网：https://www.goertek.com | 邮箱：contact@goertek.com",
+      "website": "https://www.goertek.com",
+      "tags": ["耳机", "声学", "扬声器"]
+    },
+    {
+      "name": "欣旺达",
+      "intro": "锂离子电池模组及Pack研发制造企业，产品应用于手机、笔记本、电动工具、储能等，为多家知名品牌提供电源解决方案。",
+      "contact": "官网：https://www.sunwoda.com | 电话：0755-26656666",
+      "website": "https://www.sunwoda.com",
+      "tags": ["锂电池", "充电宝", "电源管理"]
+    },
+    {
+      "name": "德赛电池",
+      "intro": "小型锂电池封装与电源管理系统供应商，在消费电子、电动工具等领域具有较强竞争力。",
+      "contact": "官网：https://www.desay.com | 邮箱：battery@desay.com",
+      "website": "https://www.desay.com",
+      "tags": ["锂电池", "充电宝", "BMS"]
+    },
+    {
+      "name": "国茂减速机",
+      "intro": "专业减速机研发制造企业，产品涵盖行星减速机、蜗轮蜗杆减速机等，广泛应用于工业自动化、机器人、物流装备。",
+      "contact": "官网：https://www.guomaogroup.com | 电话：400-828-8588",
+      "website": "https://www.guomaogroup.com",
+      "tags": ["行星减速器", "减速器", "齿轮", "精密传动"]
+    },
+    {
+      "name": "绿的谐波",
+      "intro": "精密谐波减速器及传动部件制造商，服务于工业机器人、数控机床、半导体设备等高端装备领域。",
+      "contact": "官网：https://www.leaderdrive.com | 邮箱：sales@leaderdrive.com",
+      "website": "https://www.leaderdrive.com",
+      "tags": ["减速器", "精密传动", "机械加工"]
+    },
+    {
+      "name": "深南电路",
+      "intro": "国内领先的PCB及电子装联企业，产品应用于通信、数据中心、汽车电子等，具备高端多层板、HDI板生产能力。",
+      "contact": "官网：https://www.scc-china.com | 电话：0755-86018888",
+      "website": "https://www.scc-china.com",
+      "tags": ["PCB", "电路板", "电子制造"]
+    },
+    {
+      "name": "立讯精密",
+      "intro": "消费电子精密制造龙头，涵盖连接器、声学、光学模组及整机代工，为苹果、华为等品牌提供核心零部件。",
+      "contact": "官网：https://www.luxshare-ict.com | 邮箱：ir@luxshare-ict.com",
+      "website": "https://www.luxshare-ict.com",
+      "tags": ["耳机", "注塑", "电子制造"]
+    },
+    {
+      "name": "宁德时代",
+      "intro": "全球动力电池与储能系统龙头，锂离子电池研发制造，产品覆盖动力电池、储能、消费电池等。",
+      "contact": "官网：https://www.catl.com | 电话：0591-63018888 | 邮箱：ir@catl.com",
+      "website": "https://www.catl.com",
+      "tags": ["锂电池", "锂电", "储能"]
+    },
+    {
+      "name": "比亚迪电池",
+      "intro": "动力电池及储能系统供应商，涵盖磷酸铁锂、三元锂电等，服务于新能源汽车及储能市场。",
+      "contact": "官网：https://www.byd.com | 电话：0755-89888888",
+      "website": "https://www.byd.com",
+      "tags": ["锂电池", "锂电", "储能"]
+    },
+    {
+      "name": "汇川技术",
+      "intro": "工业自动化与驱动控制领军企业，伺服系统、变频器、精密传动等产品，广泛应用于工业机器人、数控机床。",
+      "contact": "官网：https://www.inovance.com | 电话：400-830-0288 | 邮箱：sales@inovance.com",
+      "website": "https://www.inovance.com",
+      "tags": ["减速器", "精密传动", "机械加工"]
+    },
+    {
+      "name": "鹏鼎控股",
+      "intro": "全球领先的PCB及软板制造商，产品应用于智能手机、平板、可穿戴设备等消费电子。",
+      "contact": "官网：https://www.avary.com | 电话：0755-26656666",
+      "website": "https://www.avary.com",
+      "tags": ["PCB", "电路板", "SMT", "电子制造"]
+    }
+  ]
+}

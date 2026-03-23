@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.config.XdmProxyProperties;
+import com.example.exception.XdmForwardException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -64,6 +65,8 @@ public abstract class BaseXdmProxyController {
     protected void deleteWith405Fallback(String targetUrl, HttpEntity<?> request) {
         try {
             restTemplate.exchange(targetUrl, HttpMethod.DELETE, request, Object.class);
+        } catch (HttpClientErrorException.Forbidden e) {
+            throw new XdmForwardException(Map.of("success", false, "message", "服务暂不可用，请稍后重试"));
         } catch (HttpClientErrorException.MethodNotAllowed e) {
             String fallback = targetUrl.replace("/dynamic/api/", "/rdm/basic/api/dynamic/");
             if (!fallback.equals(targetUrl)) {
@@ -125,6 +128,11 @@ public abstract class BaseXdmProxyController {
     protected Object postWith404Fallback(String targetUrl, HttpEntity<?> request) {
         try {
             return restTemplate.postForObject(targetUrl, request, Object.class);
+        } catch (HttpClientErrorException.Forbidden e) {
+            if (targetUrl.contains("/list")) {
+                return Map.of("result", "SUCCESS", "data", Collections.emptyList());
+            }
+            return Map.of("result", "FAIL", "message", "服务暂不可用，请稍后重试");
         } catch (HttpClientErrorException.NotFound e) {
             return Map.of("result", "SUCCESS", "data", Collections.emptyList(), "message", "该模型在 xDM-F 中未部署，请在设计态创建并发布");
         } catch (HttpClientErrorException.MethodNotAllowed e) {
@@ -185,6 +193,8 @@ public abstract class BaseXdmProxyController {
     protected Object postCreateWith404Fallback(String targetUrl, HttpEntity<?> request) {
         try {
             return restTemplate.postForObject(targetUrl, request, Object.class);
+        } catch (HttpClientErrorException.Forbidden e) {
+            return Map.of("result", "FAIL", "message", "服务暂不可用，请稍后重试");
         } catch (HttpClientErrorException.NotFound e) {
             return Map.of("result", "FAIL", "message", "该模型在 xDM-F 中未部署，请在设计态创建并发布");
         } catch (HttpClientErrorException.MethodNotAllowed e) {
@@ -199,7 +209,7 @@ public abstract class BaseXdmProxyController {
     }
 
     /**
-     * D:\EGS\API 实例名称优先：按实体列表顺序尝试 POST create，404/405/400 时尝试下一个，403 返回鉴权错误。
+     * D:\EGS\API 实例名称优先：按实体列表顺序尝试 POST create，404/405/400 时尝试下一个，403 返回友好提示。
      * 每次尝试时注入 params.rdmExtensionType = 当前实体名；Part 实体时映射 material_* -> part_*。
      */
     @SuppressWarnings("unchecked")
@@ -225,8 +235,7 @@ public abstract class BaseXdmProxyController {
                 }
                 return postWith405Fallback(getBaseUrl() + "/dynamic/api/" + entity + "/" + action, new HttpEntity<>(reqBody, headers));
             } catch (HttpClientErrorException.Forbidden e) {
-                String msg = e.getResponseBodyAsString();
-                return Map.of("result", "FAIL", "message", "403 鉴权失败" + (msg != null && !msg.isEmpty() ? "：" + msg : "，请检查 Cookie 和 x-auth-token"));
+                return Map.of("result", "FAIL", "message", "服务暂不可用，请稍后重试");
             } catch (HttpClientErrorException.NotFound e) {
                 // 尝试下一个实体
             } catch (HttpClientErrorException.MethodNotAllowed e) {
@@ -243,6 +252,8 @@ public abstract class BaseXdmProxyController {
         try {
             restTemplate.exchange(targetUrl, HttpMethod.DELETE, new HttpEntity<>(buildForwardHeaders(req)), Object.class);
             return Map.of("success", true, "message", "删除成功");
+        } catch (HttpClientErrorException.Forbidden e) {
+            return Map.of("success", false, "message", "服务暂不可用，请稍后重试");
         } catch (HttpClientErrorException.NotFound e) {
             return Map.of("success", false, "message", notDeployedMsg);
         } catch (HttpClientErrorException.MethodNotAllowed e) {

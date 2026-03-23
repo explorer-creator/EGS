@@ -33,7 +33,7 @@ public class ProcedureController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcedureManagement/list")
     public Object getProcedureList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listProcedure();
+        if (xdmConfig.useMockForEntity("ProcedureManagement")) return mockService.listProcedure();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = buildListBodyWithPageVO(requestBody, req);
         List<String> entities = entityMapping.getPreferredEntities("ProcedureManagement", List.of("ProcedureManagement", "WorkingProcedure"));
@@ -47,7 +47,7 @@ public class ProcedureController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcedureManagement/create")
     public Object addProcedure(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createProcedure(ensureMasterInBody(requestBody));
+        if (xdmConfig.useMockForEntity("ProcedureManagement")) return mockService.createProcedure(ensureMasterInBody(requestBody));
         Map<String, Object> body = ensureMasterInBody(requestBody);
         HttpEntity<?> entity = new HttpEntity<>(body, buildForwardHeaders(req));
         List<String> entities = entityMapping.getPreferredEntities("ProcedureManagement", List.of("ProcedureManagement", "WorkingProcedure"));
@@ -56,7 +56,7 @@ public class ProcedureController extends BaseXdmProxyController {
 
     @DeleteMapping("/dynamic/api/ProcedureManagement/delete/{id}")
     public Object deleteProcedure(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("ProcedureManagement")) {
             mockService.deleteProcedure(id);
             return Map.of("success", true, "message", "删除成功");
         }
@@ -74,7 +74,7 @@ public class ProcedureController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcedureEquipment/list")
     public Object getProcedureEquipmentList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listProcedureEquipment();
+        if (xdmConfig.useMockForEntity("ProcedureEquipment")) return mockService.listProcedureEquipment();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = buildListBodyWithPageVO(requestBody, req);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/ProcedureEquipment/list",
@@ -83,14 +83,14 @@ public class ProcedureController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcedureEquipment/create")
     public Object createProcedureEquipment(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createProcedureEquipment(ensureMasterInBody(requestBody));
+        if (xdmConfig.useMockForEntity("ProcedureEquipment")) return mockService.createProcedureEquipment(ensureMasterInBody(requestBody));
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/ProcedureEquipment/create",
             new HttpEntity<>(ensureMasterInBody(requestBody), buildForwardHeaders(req)));
     }
 
     @DeleteMapping("/dynamic/api/ProcedureEquipment/delete/{id}")
     public Object deleteProcedureEquipment(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("ProcedureEquipment")) {
             mockService.deleteProcedureEquipment(id);
             return Map.of("success", true, "message", "删除成功");
         }
@@ -102,7 +102,7 @@ public class ProcedureController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcedureMaterial/list")
     public Object getProcedureMaterialList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listProcedureMaterial();
+        if (xdmConfig.useMockForEntity("ProcedureMaterial")) return mockService.listProcedureMaterial();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = buildListBodyWithPageVO(requestBody, req);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/ProcedureMaterial/list",
@@ -111,14 +111,14 @@ public class ProcedureController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcedureMaterial/create")
     public Object createProcedureMaterial(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createProcedureMaterial(ensureMasterInBody(requestBody));
+        if (xdmConfig.useMockForEntity("ProcedureMaterial")) return mockService.createProcedureMaterial(ensureMasterInBody(requestBody));
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/ProcedureMaterial/create",
             new HttpEntity<>(ensureMasterInBody(requestBody), buildForwardHeaders(req)));
     }
 
     @DeleteMapping("/dynamic/api/ProcedureMaterial/delete/{id}")
     public Object deleteProcedureMaterial(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("ProcedureMaterial")) {
             mockService.deleteProcedureMaterial(id);
             return Map.of("success", true, "message", "删除成功");
         }

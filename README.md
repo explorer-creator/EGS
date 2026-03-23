@@ -1,20 +1,27 @@
-# EGS - 设备工艺管理系统
+# 丝路智联（EGS）
 
-基于 Vue + Spring Boot + xDM-F 的设备、物料、工序、工艺路线管理系统，支持 Mock 模式无 8003 本地开发。
+**「丝路」**寓意「一带一路」与对外开放，**「智联」**点明智慧连接，呼应国际物流体系与「跨境电商 + 海外仓」等政策方向。
 
-## 项目结构
+基于 Vue + Spring Boot + xDM-F 的智慧物流与制造协同平台（仓储/分拣/路径规划、设备、物料、工序、工艺路线等），支持 Mock 模式无 8003 本地开发。
+
+## 仓库结构
 
 ```
-EGS/
-├── front/           # Vue 前端 (Vite)
-├── proxy/           # Spring Boot 代理层 (8080)
-├── business-analysis/  # 商业分析 Python 服务
-└── docs/            # 说明文档
-    ├── 本地开发指南.md
-    ├── Git协作开发指南.md
-    ├── 架构与xDM-F交互确认.md
-    └── demo/        # 展示视频（将视频文件放入此目录）
+EGSfb/
+├── front/                    # Vue 2 + Vite 主前端（生产入口）
+├── proxy/                    # Spring Boot 代理层（默认 8080 → xDM-F）
+├── A/                        # 模块 A：Python FastAPI 配图服务（可选）
+├── business-analysis/        # 商业分析 Python 服务（可选）
+├── greengeneratesysteam/     # 队友 Next.js「绿能排产」演示（iframe 嵌入）
+├── docs/                     # 文档中心（含架构、部署、协作说明）
+├── examples/                 # 独立示例页面（与主应用分离）
+├── archive/                  # 历史碎片代码归档（勿与主工程混淆）
+├── artifacts/                # 大体积 zip 等（默认不提交 Git）
+├── rag_project/              # RAG / 向量实验工程
+└── RAG-teammate-handoff/     # 给队友的 RAG 对接摘抄包
 ```
+
+> 说明：根目录下 **`archive/`**、**`artifacts/`** 仅用于归档与大文件占位；**正式开发与构建请以 `front/`、`proxy/` 为准。**
 
 ## 快速启动
 
@@ -23,7 +30,7 @@ EGS/
 1. 在 `proxy/src/main/resources/application.yml` 中设置 `xdm.mock-mode: true`
 2. 启动代理：`cd proxy && mvn spring-boot:run`
 3. 启动前端：`cd front && npm install && npm run dev`
-4. 访问 http://localhost:5173，登录 `admin` / `admin123`
+4. 访问 <http://localhost:5173>，登录 `admin` / `admin123`
 
 ### 方案二：完整环境（含 xDM-F 8003）
 
@@ -35,12 +42,18 @@ EGS/
 
 | 文档 | 说明 |
 |------|------|
-| [本地开发指南](docs/本地开发指南.md) | Mock 模式、启动步骤、常见问题 |
-| [Git协作开发指南](docs/Git协作开发指南.md) | 团队协作、分支、PR 流程 |
-| [架构与xDM-F交互确认](docs/架构与xDM-F交互确认.md) | 系统架构、API 清单 |
+| [docs/README.md](docs/README.md) | **文档索引** |
+| [docs/本地开发指南.md](docs/本地开发指南.md) | Mock、启动、常见问题 |
+| [docs/Git协作开发指南.md](docs/Git协作开发指南.md) | 分支与 PR |
+| [docs/阿里云部署指南.md](docs/阿里云部署指南.md) | 上云与 Nginx 示例 |
+
+## 协作与规范
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — 贡献说明  
+- [LICENSE](LICENSE) — MIT  
 
 ## 技术栈
 
-- **前端**：Vue 2 + Element UI + Vite + Axios
-- **代理**：Spring Boot 3 + RestTemplate
-- **后端**：xDM-F (8003) 或 Mock 模式
+- **前端**：Vue 2 + Element UI + Vite + Axios  
+- **代理**：Spring Boot 3 + RestTemplate  
+- **后端**：xDM-F (8003) 或 Mock 模式  

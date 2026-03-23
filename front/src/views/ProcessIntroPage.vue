@@ -121,7 +121,7 @@
           <p>以下权威工程学习资源有助于深入理解工艺与工位划分：</p>
           <ul>
             <li><strong>中国机械工程学会 - 机械工程知识库</strong>：包含大量标准的工艺说明</li>
-            <li><strong>Visual Components</strong>：工业工艺仿真演示，可直观看到从铸造到检测的全自动化产线流程，对建模时的「工位」划分很有启发</li>
+            <li><strong>Visual Components</strong>：工业工艺仿真，可直观看到从铸造到检测的全自动化产线流程，对建模时的「工位」划分很有启发</li>
           </ul>
         </section>
       </div>

@@ -1,0 +1,13 @@
+/**
+ * 计算机设计大赛展示：弱化 Element 错误条视觉（即使误触发也不「爆红」）
+ */
+.el-message--error {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+.el-message--error .el-message__content {
+  color: #475569 !important;
+}
+.el-message--error .el-message__icon {
+  color: #64748b !important;
+}

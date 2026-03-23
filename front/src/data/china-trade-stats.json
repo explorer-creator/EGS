@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "中国货物贸易结构（可视化数据集）",
+    "unitPercent": true,
+    "description": "各大类占比为汇总值，四舍五入后合计 100%；综合公开统计口径与行业分析文献整理，非实时海关明细。",
+    "sources": [
+      "http://english.customs.gov.cn/",
+      "https://wits.worldbank.org/CountryProfile/en/Country/CHN",
+      "https://www.wto.org/english/res_e/statis_e/statis_e.htm"
+    ],
+    "updatedNote": "用于丝路智联前端饼图；更新请以海关总署/WITS 最新发布为准",
+    "trustedLayerNote": "可信数据层：official_stat=公开统计口径汇总；chain_anchor_demo=与链上哈希对齐的数据切片。"
+  },
+  "exportByCategory": [
+    { "name": "机电与高新技术产品", "value": 38, "hint": "机械、电气、电子、精密设备等", "provenance": "official_stat" },
+    { "name": "纺织服装与轻工", "value": 12, "hint": "服装、鞋靴、箱包、家具等", "provenance": "official_stat" },
+    { "name": "化工与塑料橡胶", "value": 9, "hint": "化学品、橡胶塑料及其制品等", "provenance": "official_stat" },
+    { "name": "金属及其制品", "value": 11, "hint": "钢铁、有色、五金制品等", "provenance": "official_stat" },
+    { "name": "车辆与运输设备", "value": 8, "hint": "汽车、船舶、铁路装备等", "provenance": "chain_anchor_demo" },
+    { "name": "农产品与食品", "value": 6, "hint": "水产品、蔬菜、特色农产品等", "provenance": "official_stat" },
+    { "name": "其他", "value": 16, "hint": "未单列大类汇总", "provenance": "official_stat" }
+  ],
+  "importByCategory": [
+    { "name": "机电与中间品", "value": 35, "hint": "零部件、集成电路、机械设备等", "provenance": "official_stat" },
+    { "name": "能源与矿产", "value": 22, "hint": "原油、天然气、铁矿石等", "provenance": "official_stat" },
+    { "name": "农产品与食品", "value": 9, "hint": "大豆、肉类、乳品等", "provenance": "official_stat" },
+    { "name": "化工与医药原料", "value": 12, "hint": "有机化学品、医药原料等", "provenance": "chain_anchor_demo" },
+    { "name": "消费品与其他制成品", "value": 8, "hint": "日用消费品等", "provenance": "official_stat" },
+    { "name": "其他", "value": 14, "hint": "未单列大类汇总", "provenance": "official_stat" }
+  ],
+  "exportByRegion": [
+    { "name": "东盟", "value": 16, "hint": "东南亚国家联盟成员国合计", "provenance": "official_stat" },
+    { "name": "欧盟", "value": 15, "hint": "欧盟成员国合计", "provenance": "chain_anchor_demo" },
+    { "name": "美国", "value": 14, "hint": "北美单一市场口径", "provenance": "official_stat" },
+    { "name": "日本与韩国", "value": 12, "hint": "东北亚主要发达经济体", "provenance": "official_stat" },
+    { "name": "共建「一带一路」国家", "value": 28, "hint": "沿线经贸合作区域广义合计", "provenance": "chain_anchor_demo" },
+    { "name": "其他经济体", "value": 15, "hint": "其余国别/地区", "provenance": "official_stat" }
+  ],
+  "importByRegion": [
+    { "name": "东盟", "value": 15, "hint": "东南亚国家联盟成员国合计", "provenance": "official_stat" },
+    { "name": "欧盟", "value": 12, "hint": "欧盟成员国合计", "provenance": "official_stat" },
+    { "name": "美国", "value": 8, "hint": "北美单一市场口径", "provenance": "official_stat" },
+    { "name": "日本与韩国", "value": 14, "hint": "东北亚主要发达经济体", "provenance": "official_stat" },
+    { "name": "共建「一带一路」国家", "value": 30, "hint": "沿线经贸合作区域广义合计", "provenance": "chain_anchor_demo" },
+    { "name": "其他经济体", "value": 21, "hint": "其余国别/地区", "provenance": "official_stat" }
+  ]
+}

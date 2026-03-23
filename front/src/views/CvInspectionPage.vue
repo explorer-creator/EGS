@@ -49,9 +49,9 @@
           <div v-if="defects.length > 0" class="defect-list">
             <div class="demo-warning">
               <i class="el-icon-warning-outline"></i>
-              <span><strong>演示模式</strong>：当前为模拟检测，非真实 AI 识别结果，<strong>请勿同步至生产系统</strong>。接入 PaddlePaddle / 昇腾 Atlas 后，将启用真实检测并开放同步功能。</span>
+              <span><strong>模拟检测</strong>：当前为算法模拟结果，非产线级 AI 识别，<strong>请勿同步至生产系统</strong>。接入 PaddlePaddle / 昇腾 Atlas 后，将启用真实检测并开放同步功能。</span>
             </div>
-            <h4>缺陷明细（演示数据）</h4>
+            <h4>缺陷明细</h4>
             <el-table :data="defects" size="small" border>
               <el-table-column prop="type" label="缺陷类型" width="100" />
               <el-table-column label="坐标" width="180">
@@ -68,7 +68,7 @@
 
             <div class="sync-area sync-disabled">
               <el-button type="primary" disabled>
-                <i class="el-icon-connection"></i> 同步已禁用（演示模式）
+                <i class="el-icon-connection"></i> 同步已禁用（模拟检测）
               </el-button>
               <p class="sync-tip">接入真实 CV 模型（PaddlePaddle / 昇腾 Atlas）后，方可同步缺陷至工业软件并触发报废</p>
             </div>

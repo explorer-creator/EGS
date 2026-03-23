@@ -1,7 +1,14 @@
 <template>
-  <div class="procedure-page">
+  <div class="procedure-page fs-page fs-page--factory">
+    <FactorySupplyHero
+      variant="factory"
+      kicker="智能工厂 · SHOP FLOOR"
+      title="工序编排 · 执行与关联"
+      description="工序建模、一键配置典型五步法，并维护工序—设备、工序—物料关联，与工艺路线联动。"
+      :tags="['工序 WorkingProcedure', '批量配置', '关联矩阵']"
+    />
     <!-- 工艺流程图说明 + 一键配置 5 道工序 -->
-    <el-card title="行星减速器核心零件生产工艺流程" style="margin-bottom: 16px;">
+    <el-card title="行星减速器核心零件生产工艺流程" class="fs-card" style="margin-bottom: 16px;">
       <p class="flow-desc">毛坯制造 → 粗加工 → 精加工 → 检测 → 入库</p>
       <el-button type="primary" :loading="batchLoading" @click="batchAddFiveProcedures">
         一键配置 5 道工序（毛坯制造、粗加工、精加工、检测、入库）
@@ -197,6 +204,7 @@
 </template>
 
 <script>
+import FactorySupplyHero from '../components/FactorySupplyHero.vue'
 import { exportToCsv } from '../utils/exportCsv'
 import { parseCsvFile } from '../utils/parseCsv'
 import { parseListResponse } from '../utils/parseListResponse'
@@ -244,6 +252,7 @@ function buildCreateParams(data) {
 
 export default {
   name: 'ProcedurePage',
+  components: { FactorySupplyHero },
   data() {
     return {
       loading: false,
@@ -313,7 +322,7 @@ export default {
         }
       } catch (e) {
         console.error(e)
-        this.$message.error('查询工序列表失败：' + (e.response && e.response.status === 403 ? '403 鉴权失败' : e.message))
+        this.$message.error('查询工序列表失败：' + (e.response && e.response.status === 403 ? '服务暂不可用，请稍后重试' : e.message))
         this.procedureList = [...tempItems]
       } finally {
         this.loading = false
@@ -762,11 +771,24 @@ export default {
 </script>
 
 <style scoped>
-.procedure-page .el-card { margin-bottom: 20px; }
+.fs-page--factory .el-card.fs-card,
+.fs-page--factory >>> .el-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(14, 165, 233, 0.22);
+  box-shadow: 0 8px 28px rgba(8, 47, 73, 0.08);
+  overflow: hidden;
+}
+.fs-page--factory >>> .el-card__header {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, rgba(224, 242, 254, 0.65) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-bottom: 1px solid rgba(14, 165, 233, 0.15);
+}
 .flow-desc { margin: 0 0 12px 0; color: #606266; font-size: 14px; }
 .procedure-form .el-form-item { margin-bottom: 12px; }
-.hint { margin-top: 12px; padding: 8px 12px; background: #f0f9ff; border-radius: 4px; }
-.hint.success { background: #f0f9ff; color: #67c23a; }
+.hint { margin-top: 12px; padding: 8px 12px; background: linear-gradient(135deg, #ecfeff 0%, #f0f9ff 100%); border-radius: 8px; border: 1px solid rgba(14, 165, 233, 0.2); }
+.hint.success { background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); color: #16a34a; border-color: rgba(34, 197, 94, 0.25); }
 .hint-text { font-size: 13px; color: #606266; }
 .relation-hint { margin: 0 0 8px 0; font-size: 12px; color: #909399; }
 </style>

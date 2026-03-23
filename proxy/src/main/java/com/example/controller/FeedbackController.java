@@ -25,7 +25,7 @@ public class FeedbackController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/Feedback/list")
     public Object getFeedbackList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listFeedback();
+        if (xdmConfig.useMockForEntity("Feedback")) return mockService.listFeedback();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = simplifyListParams(requestBody);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/Feedback/list",
@@ -34,7 +34,7 @@ public class FeedbackController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/Feedback/create")
     public Object createFeedback(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createFeedback(requestBody);
+        if (xdmConfig.useMockForEntity("Feedback")) return mockService.createFeedback(requestBody);
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/Feedback/create",
             new HttpEntity<>(requestBody, buildForwardHeaders(req)));
     }

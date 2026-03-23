@@ -78,18 +78,18 @@
             </a>
           </div>
 
-          <!-- 相关链接：跳转到绿色生产、商业分析、生成生产方案 -->
+          <!-- 相关链接：跳转到绿能排产演示、生成综合报告、生成生产方案 -->
           <div class="related-links-section">
             <h4 class="related-links-title">
               <i class="el-icon-link"></i> 延伸阅读
             </h4>
             <p class="related-links-desc">与「{{ lastProduct }}」相关的功能模块，可进一步探索：</p>
             <div class="related-links-btns">
-              <el-button type="success" size="small" icon="el-icon-sunny" @click="goToGreenProduction">
-                绿色生产
+              <el-button type="success" size="small" icon="el-icon-data-analysis" @click="goToGreenCarbonDemo">
+                绿能排产演示
               </el-button>
-              <el-button type="primary" size="small" icon="el-icon-data-line" @click="goToBusinessAnalysis">
-                商业分析
+              <el-button type="primary" size="small" icon="el-icon-document-checked" @click="goToReportExport">
+                生成综合报告
               </el-button>
               <el-button type="warning" size="small" icon="el-icon-document-checked" @click="goToProductionPlan">
                 生成生产方案并导入
@@ -265,13 +265,13 @@ export default {
       e.target.style.display = 'none'
       e.target.parentElement.classList.add('img-failed')
     },
-    goToGreenProduction() {
+    goToGreenCarbonDemo() {
       const nav = this.navigateToPage
-      if (nav) nav('GreenProductionPage', { product: this.lastProduct, lastAnswer: this.lastAnswer })
+      if (nav) nav('GreenCarbonFootprintPage', { product: this.lastProduct, lastAnswer: this.lastAnswer })
     },
-    goToBusinessAnalysis() {
+    goToReportExport() {
       const nav = this.navigateToPage
-      if (nav) nav('BusinessAnalysisPage', { product: this.lastProduct, lastAnswer: this.lastAnswer })
+      if (nav) nav('ReportExportPage', { product: this.lastProduct, lastAnswer: this.lastAnswer })
     },
     goToProductionPlan() {
       const nav = this.navigateToPage

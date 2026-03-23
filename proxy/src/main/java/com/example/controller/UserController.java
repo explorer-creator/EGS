@@ -29,7 +29,7 @@ public class UserController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/User_Infor/list")
     public Object getUserList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listUser();
+        if (xdmConfig.useMockForEntity("User_Infor")) return mockService.listUser();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = simplifyListParams(requestBody);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/User_Infor/list",
@@ -38,21 +38,21 @@ public class UserController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/User_Infor/create")
     public Object createUser(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createUser(requestBody);
+        if (xdmConfig.useMockForEntity("User_Infor")) return mockService.createUser(requestBody);
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/User_Infor/create",
             new HttpEntity<>(requestBody, buildForwardHeaders(req)));
     }
 
     @PostMapping("/dynamic/api/User_Infor/update")
     public Object updateUser(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.updateUser(requestBody);
+        if (xdmConfig.useMockForEntity("User_Infor")) return mockService.updateUser(requestBody);
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/User_Infor/update",
             new HttpEntity<>(requestBody, buildForwardHeaders(req)));
     }
 
     @DeleteMapping("/dynamic/api/User_Infor/delete/{id}")
     public Object deleteUser(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("User_Infor")) {
             mockService.deleteUser(id);
             return Map.of("success", true, "message", "删除成功");
         }
@@ -87,7 +87,7 @@ public class UserController extends BaseXdmProxyController {
         if (username.isEmpty() || password.isEmpty()) {
             return Map.of("success", false, "message", "用户名和密码不能为空");
         }
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("User_Infor")) {
             Map<String, Object> user = mockService.getUserByUsername(username);
             if (user == null && "admin".equals(username)) {
                 user = Map.of("id", "mock_user_1", "user_name", "admin", "username", "admin", "password", "admin123");

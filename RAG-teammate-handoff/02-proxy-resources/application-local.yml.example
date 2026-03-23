@@ -1,0 +1,9 @@
+# 复制为 application-local.yml 后填写密钥（application-local.yml 已在 .gitignore，勿提交）
+# 千问：https://dashscope.console.aliyun.com/apiKey
+# 高德：https://console.amap.com/dev/key/app
+
+qwen:
+  api-key: sk-请填写你的DashScope密钥
+
+amap:
+  key: 请填写高德Web服务Key

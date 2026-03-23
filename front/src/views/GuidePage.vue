@@ -4,7 +4,7 @@
       <div class="guide-header">
         <i class="el-icon-document"></i>
         <h2>软件使用指南</h2>
-        <span class="subtitle">各模块功能说明与操作指引</span>
+        <span class="subtitle">丝路智联 · 各模块功能说明与操作指引</span>
       </div>
 
       <el-collapse v-model="activeNames">
@@ -110,7 +110,13 @@ P005,入库,入库,-,,,</pre>
         <!-- 通用说明 -->
         <el-collapse-item title="通用说明" name="common">
           <h4>Cookie 认证</h4>
-          <p>若遇 403 鉴权失败，请先访问 xDM-F 后端（如 8003 端口）登录，在浏览器 F12 → Network 中复制 Cookie，粘贴到顶部「Cookie（遇 403 必填）」输入框并保存。</p>
+          <p>若需使用真实 xDM-F 数据，请先访问 xDM-F 后端（如 8003 端口）登录，在浏览器 F12 → Network 中复制 Cookie，粘贴到顶部「Cookie（可选）」输入框并保存。</p>
+
+          <h4>丝路贸易态势大屏</h4>
+          <p>登录后，点击页面<strong>右侧固定竖条「丝路贸易态势」</strong>可全屏展开大屏：默认页为<strong>智慧物流全景</strong>（与菜单「智慧物流」相同：WMS、分拣、AI+3D 沙盘、路径规划等）；另可切换「国际线路」3D 地球与「国内低空物流」地图。首次打开 3D 地球需联网加载脚本。</p>
+
+          <h4>国际贸易数据可视化</h4>
+          <p>顶部菜单「<strong>贸易可视化</strong>」展示我国货物贸易出口/进口<strong>商品大类</strong>与<strong>区域分布</strong>饼图（结构占比），可拖动「图表高度」滑块改变饼图区域大小；详细文献与来源说明见项目 <code>docs/国际贸易大数据摘要.md</code>。</p>
 
           <h4>全局搜索</h4>
           <p>在顶部导航栏搜索框输入关键词，可跨设备、物料、工序、工艺路线进行搜索，点击结果可跳转到对应页面并高亮显示。</p>

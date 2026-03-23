@@ -1,7 +1,14 @@
 <template>
-  <div class="material-page">
+  <div class="material-page fs-page fs-page--supply">
+    <FactorySupplyHero
+      variant="supply"
+      kicker="智慧供应链 · MATERIAL MASTER"
+      title="物料中枢 · 主数据与分类"
+      description="物料编码、库存、分类与 BOM 协同，形成从设计到制造的单一数据源；支持本地数据与 xDM-F 对接。"
+      :tags="['Part 主数据', '层级分类', 'BOM 关系']"
+    />
     <!-- 搜索查看物料（按物料编码、名称等属性） -->
-    <el-card title="搜索查看物料" style="margin-bottom: 16px;">
+    <el-card title="搜索查看物料" class="fs-card" style="margin-bottom: 16px;">
       <el-form :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="物料编码">
           <el-input v-model="searchForm.materialCode" placeholder="物料编码" clearable style="width: 160px;" />
@@ -211,6 +218,7 @@
 </template>
 
 <script>
+import FactorySupplyHero from '../components/FactorySupplyHero.vue'
 import { exportToCsv } from '../utils/exportCsv'
 import { parseCsvFile } from '../utils/parseCsv'
 import { parseListResponse } from '../utils/parseListResponse'
@@ -251,6 +259,7 @@ function buildCreateParams(extensionType, data) {
 
 export default {
   name: 'MaterialPage',
+  components: { FactorySupplyHero },
   data() {
     return {
       loading: false,
@@ -345,7 +354,7 @@ export default {
         this.materialList = [...tempItems, ...fromApi]
       } catch (e) {
         console.error(e)
-        this.$message.error('查询物料失败：' + (e.response && e.response.status === 403 ? '403 鉴权失败' : e.message))
+        this.$message.error('查询物料失败：' + (e.response && e.response.status === 403 ? '服务暂不可用，请稍后重试' : e.message))
         this.materialList = [...tempItems]
       } finally {
         this.loading = false
@@ -522,7 +531,7 @@ export default {
         if (wasEdit) this.loadMaterials()
         this.loadCategories()
       } catch (e) {
-        this.$message.error('保存失败：' + (e.response && e.response.status === 403 ? '403 鉴权失败' : (e.response && e.response.data && e.response.data.message) || e.message))
+        this.$message.error('保存失败：' + (e.response && e.response.status === 403 ? '服务暂不可用，请稍后重试' : (e.response && e.response.data && e.response.data.message) || e.message))
       } finally {
         this.loading = false
       }
@@ -761,7 +770,20 @@ export default {
 </script>
 
 <style scoped>
-.material-page .el-card { margin-bottom: 16px; }
+.fs-page--supply .el-card.fs-card,
+.fs-page--supply >>> .el-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  box-shadow: 0 8px 28px rgba(30, 27, 75, 0.09);
+  overflow: hidden;
+}
+.fs-page--supply >>> .el-card__header {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, rgba(254, 243, 199, 0.55) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.18);
+}
 .search-form .el-form-item { margin-bottom: 8px; }
 .material-form .el-form-item { margin-bottom: 12px; }
 .section-hint { margin: 0 0 12px 0; font-size: 12px; color: #909399; }

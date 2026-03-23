@@ -31,7 +31,7 @@ public class ProcessRouteController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcessRoute/list")
     public Object getProcessRouteList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listProcessRoute();
+        if (xdmConfig.useMockForEntity("ProcessRoute")) return mockService.listProcessRoute();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = buildListBodyWithPageVO(requestBody, req);
         List<String> entities = entityMapping.getPreferredEntities("ProcessRoute", List.of("ProcessRoute", "ProcessRouteManagement"));
@@ -45,7 +45,7 @@ public class ProcessRouteController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcessRoute/create")
     public Object createProcessRoute(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createProcessRoute(ensureMasterInBody(requestBody));
+        if (xdmConfig.useMockForEntity("ProcessRoute")) return mockService.createProcessRoute(ensureMasterInBody(requestBody));
         Map<String, Object> body = ensureMasterInBody(requestBody);
         HttpEntity<?> entity = new HttpEntity<>(body, buildForwardHeaders(req));
         List<String> entities = entityMapping.getPreferredEntities("ProcessRoute", List.of("ProcessRoute", "ProcessRouteManagement"));
@@ -54,7 +54,7 @@ public class ProcessRouteController extends BaseXdmProxyController {
 
     @DeleteMapping("/dynamic/api/ProcessRoute/delete/{id}")
     public Object deleteProcessRoute(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("ProcessRoute")) {
             mockService.deleteProcessRoute(id);
             return Map.of("success", true, "message", "删除成功");
         }
@@ -70,7 +70,7 @@ public class ProcessRouteController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcessRouteProcedure/list")
     public Object getProcessRouteProcedureList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listProcessRouteProcedure();
+        if (xdmConfig.useMockForEntity("ProcessRouteProcedure")) return mockService.listProcessRouteProcedure();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = buildListBodyWithPageVO(requestBody, req);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/ProcessRouteProcedure/list",
@@ -79,7 +79,7 @@ public class ProcessRouteController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/ProcessRouteProcedure/create")
     public Object createProcessRouteProcedure(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createProcessRouteProcedure(ensureMasterInBody(requestBody));
+        if (xdmConfig.useMockForEntity("ProcessRouteProcedure")) return mockService.createProcessRouteProcedure(ensureMasterInBody(requestBody));
         Map<String, Object> body = ensureMasterInBody(requestBody);
         HttpEntity<?> entity = new HttpEntity<>(body, buildForwardHeaders(req));
         List<String> entities = entityMapping.getPreferredEntities("ProcessRouteProcedure", List.of("ProcessRouteProcedure"));
@@ -88,7 +88,7 @@ public class ProcessRouteController extends BaseXdmProxyController {
 
     @DeleteMapping("/dynamic/api/ProcessRouteProcedure/delete/{id}")
     public Object deleteProcessRouteProcedure(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("ProcessRouteProcedure")) {
             mockService.deleteProcessRouteProcedure(id);
             return Map.of("success", true, "message", "删除成功");
         }

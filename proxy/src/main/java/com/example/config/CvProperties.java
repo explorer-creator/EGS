@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "cv")
 public class CvProperties {
 
-    /** true=演示模式（模拟检测，禁止同步），false=真实 CV 已接入，允许同步 */
+    /** true=模拟检测（禁止同步），false=真实 CV 已接入，允许同步 */
     private boolean demoMode = true;
 
     /** 商业分析服务地址，用于次品浪费折算。为空则不调用 */
     private String greenBusinessUrl = "";
 
-    /** true=生产方案不转发 8001，直接返回演示方案（绕过 405） */
+    /** true=生产方案不转发 8001，直接返回本地参考方案（绕过 405） */
     private boolean productionPlanBypass8001 = false;
 
     public boolean isDemoMode() {

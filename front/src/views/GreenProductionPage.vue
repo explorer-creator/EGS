@@ -38,7 +38,7 @@
         </div>
       </div>
       <div v-else class="demo-fallback">
-        <p>请先在「产品制造问答」中输入产品名称并查询，再点击「绿色生产」查看该产品的专属分析。</p>
+        <p>请先在「产品制造问答」中输入产品名称并查询；侧栏「绿能排产演示」已替代原入口，本页可通过<strong>顶部搜索「绿色生产」</strong>打开。</p>
       </div>
     </el-card>
 
@@ -102,6 +102,10 @@
         <template slot="title">绿色仪表盘</template>
         减碳趋势、PUE 趋势等数据可通过 <code>/api/green/dashboard</code> 获取，支持可视化展示。
       </el-alert>
+      <div class="green-carbon-link" style="margin-top: 16px;">
+        <el-button type="primary" plain icon="el-icon-data-analysis" @click="goCarbonFootprint">打开「绿能排产演示（队友）」</el-button>
+        <span class="link-hint">嵌入队友 Next 演示工程，需先启动 greengeneratesysteam</span>
+      </div>
     </el-card>
   </div>
 </template>
@@ -220,6 +224,11 @@ export default {
         })
       }
     },
+    goCarbonFootprint() {
+      const nav = this.navigateToPage
+      if (nav) nav('GreenCarbonFootprintPage')
+      else this.$message.info('请从左侧菜单进入「碳足迹与绿能排产」')
+    },
     goBackToProductQa() {
       const nav = this.navigateToPage
       if (nav) nav('ProductManufacturingPage')
@@ -276,6 +285,11 @@ export default {
   padding: 16px 0;
   color: #909399;
   font-size: 14px;
+}
+.link-hint {
+  margin-left: 12px;
+  font-size: 13px;
+  color: #909399;
 }
 .feature-card {
   padding: 32px 40px;

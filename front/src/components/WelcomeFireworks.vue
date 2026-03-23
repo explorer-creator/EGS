@@ -3,7 +3,7 @@
     <div v-show="visible" class="welcome-overlay">
       <canvas ref="canvas" class="fireworks-canvas"></canvas>
       <div class="welcome-text">
-        <span class="text-main">欢迎来到EGS!</span>
+        <span class="text-main">欢迎使用丝路智联</span>
       </div>
     </div>
   </transition>

@@ -1,7 +1,14 @@
 <template>
-  <div class="plan-page">
+  <div class="plan-page fs-page fs-page--supply">
+    <FactorySupplyHero
+      variant="supply"
+      kicker="智慧供应链 · PROCESS ROUTING"
+      title="工艺路线 · 版本化编排"
+      description="将工序按序串联为可版本管理的工艺路线，支持一键配置任务与 Mermaid 流程可视，衔接智能工厂工序数据。"
+      :tags="['ProcessRoute', '工序串联', '流程图']"
+    />
     <!-- 任务说明 -->
-    <el-card title="任务说明" style="margin-bottom: 16px;">
+    <el-card title="任务说明" class="fs-card" style="margin-bottom: 16px;">
       <p>工艺流程：毛坯制造 → 粗加工 → 精加工 → 检测 → 入库</p>
       <p>新增工艺路线「中心轮零件加工」，版本 1.0，主要涉及与行星减速器相关零件的生产加工工艺。</p>
     </el-card>
@@ -15,7 +22,7 @@
         <li><strong>首次使用：</strong>先在「工序管理」创建工序（如：毛坯制造、粗加工、精加工、检测、入库），再在「工艺路线管理」创建工艺路线并关联工序。</li>
         <li><strong>下拉框为空时：</strong>点击「刷新列表」，或切换到其他页面再切回「工艺路线管理」。</li>
         <li><strong>xDM-F 配置：</strong>确认 xDM-F 中已创建并发布 ProcessRoute、ProcedureManagement、ProcessRouteProcedure、EquipmentManagement、MaterialManagement 等实体。</li>
-        <li><strong>Cookie 配置：</strong>若出现 403，需在顶部输入框填入从 8003 登录后获取的 Cookie。</li>
+        <li><strong>Cookie 配置（可选）：</strong>对接真实 xDM 时，可在顶部输入框填入从 8003 登录后获取的 Cookie。</li>
       </ul>
     </el-card>
 
@@ -196,6 +203,7 @@
 </template>
 
 <script>
+import FactorySupplyHero from '../components/FactorySupplyHero.vue'
 import { exportToCsv } from '../utils/exportCsv'
 import { parseListResponse } from '../utils/parseListResponse'
 import { getTempProcedureList, getTempRouteList, saveTempRoute } from '../utils/tempStorage'
@@ -246,6 +254,7 @@ function buildProcessRouteProcedureParams(routeId, procedureId, sequenceOrder) {
 
 export default {
   name: 'PlanPage',
+  components: { FactorySupplyHero },
   data() {
     return {
       loading: false,
@@ -345,7 +354,7 @@ export default {
         console.error(e)
         this.routeList = [...tempUnique]
         if (e.response && e.response.status !== 404) {
-          this.$message.error('查询工艺路线失败：' + (e.response && e.response.status === 403 ? '403 鉴权失败' : e.message))
+          this.$message.error('查询工艺路线失败：' + (e.response && e.response.status === 403 ? '服务暂不可用，请稍后重试' : e.message))
         }
       } finally {
         this.loading = false
@@ -532,7 +541,7 @@ export default {
         this.loadRouteProcedureList(routeId)
         this.$message.success(`工艺路线「中心轮零件加工」v1.0 已创建，已关联 ${procs.length - routeProcedureTemp.length}/5 道工序` + (routeProcedureTemp.length ? '（部分关联失败，已加入本地列表）' : ''))
       } catch (e) {
-        this.$message.error('一键配置失败：' + (e.response && e.response.status === 403 ? '403 鉴权失败' : (e.response && e.response.data && e.response.data.message) || e.message) + '。请确认 xDM-F 中已部署 ProcessRoute、ProcessRouteProcedure 实体')
+        this.$message.error('一键配置失败：' + (e.response && e.response.status === 403 ? '服务暂不可用，请稍后重试' : (e.response && e.response.data && e.response.data.message) || e.message) + '。请确认工艺路线相关模型已就绪')
       } finally {
         this.batchLoading = false
       }
@@ -650,10 +659,23 @@ export default {
 </script>
 
 <style scoped>
-.plan-page .el-card { margin-bottom: 16px; }
-.usage-tips-card { margin-bottom: 16px; border-left: 4px solid #165DFF; }
-.usage-tips-card .card-header { font-weight: 500; color: #303133; }
-.usage-tips-card .card-header i { margin-right: 6px; color: #165DFF; }
+.fs-page--supply .el-card.fs-card,
+.fs-page--supply >>> .el-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  box-shadow: 0 8px 28px rgba(30, 27, 75, 0.09);
+  overflow: hidden;
+}
+.fs-page--supply >>> .el-card__header {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, rgba(254, 243, 199, 0.55) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.18);
+}
+.usage-tips-card { margin-bottom: 16px; border-left: 4px solid #d97706; }
+.usage-tips-card .card-header { font-weight: 600; color: #303133; }
+.usage-tips-card .card-header i { margin-right: 6px; color: #d97706; }
 .usage-tips-list {
   margin: 0; padding-left: 20px; color: #606266; font-size: 13px; line-height: 1.8;
 }

@@ -1,8 +1,28 @@
 <template>
   <div class="about-page">
     <el-card class="intro-card" shadow="hover">
+      <div class="cover-block">
+        <h1 class="cover-title">丝路智联</h1>
+        <p class="cover-sub">仓储 · 分拣 · 路径规划 · 制造协同 · 国际物流</p>
+      </div>
+      <MulticulturalRibbon
+        class="about-mcr"
+        caption="面向一带一路与跨境电商场景，连接中国与亚欧多国市场；多元团队与沿线国家协作，共同提升供应链韧性与可视化水平（装饰示意）。"
+      />
       <div class="intro-header">
         <i class="el-icon-office-building"></i>
+        <h2>平台简介</h2>
+      </div>
+      <div class="intro-content">
+        <p class="lead brand-lead">
+          <strong>「丝路」</strong>寓意<strong>「一带一路」</strong>与<strong>对外开放</strong>，
+          呼应建设<strong>国际物流体系</strong>、推动<strong>「跨境电商 + 海外仓」</strong>等政策方向；
+          <strong>「智联」</strong>点明<strong>智慧连接</strong>，以数据与算法贯通仓储、运输、制造与协同决策，
+          助力跨境物流与供应链可视化、可调度、可优化。
+        </p>
+      </div>
+      <div class="intro-header intro-header-secondary">
+        <i class="el-icon-s-flag"></i>
         <h2>企业介绍</h2>
       </div>
       <div class="intro-content">
@@ -41,7 +61,10 @@
 </template>
 
 <script>
+import MulticulturalRibbon from '../components/MulticulturalRibbon.vue'
+
 export default {
+  components: { MulticulturalRibbon },
   name: 'AboutPage'
 }
 </script>
@@ -53,6 +76,27 @@ export default {
 }
 .intro-card {
   padding: 32px 40px;
+}
+.about-mcr {
+  margin: 0 0 24px;
+}
+.cover-block {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ebeef5;
+}
+.cover-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #165dff;
+  letter-spacing: 0.06em;
+}
+.cover-sub {
+  margin: 0;
+  font-size: 14px;
+  color: #909399;
 }
 .intro-header {
   display: flex;
@@ -70,6 +114,15 @@ export default {
   margin: 0;
   font-size: 24px;
   color: #303133;
+}
+.intro-header-secondary {
+  margin-top: 8px;
+}
+.brand-lead {
+  background: linear-gradient(135deg, #f0f7ff 0%, #fff 100%);
+  padding: 16px 18px;
+  border-radius: 8px;
+  border-left: 4px solid #165dff;
 }
 .lead {
   font-size: 16px;

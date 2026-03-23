@@ -28,7 +28,7 @@
         </div>
       </div>
       <div v-else class="demo-fallback">
-        <p>请先在「产品制造问答」中输入产品名称并查询，再点击「商业分析」查看该产品的专属分析。</p>
+        <p>请先在「产品制造问答」中输入产品名称并查询；侧栏「商业分析」已并入「生成综合报告」，您仍可通过延伸链接中的「生成生产方案并导入」进入本页。</p>
       </div>
     </el-card>
 
@@ -289,7 +289,7 @@ export default {
         if (data.success) {
           this.lastPlan = data
           if (data._fallback) {
-            this.$message.warning('接口暂不可用，已展示演示方案，可一键导入')
+            this.$message.warning('接口暂不可用，已展示备选方案，可一键导入')
           } else {
             this.$message.success('方案生成成功')
           }
@@ -363,7 +363,7 @@ export default {
         if (d?.message) return d.message
         if (d?.params?.message) return d.params.message
         if (ex.response?.status === 405) return '405 Method Not Allowed，请确认 xDM-F(8003) 已启动'
-        if (ex.response?.status === 403) return '403 鉴权失败，请检查登录状态'
+        if (ex.response?.status === 403) return '服务暂不可用，请稍后重试'
         return ex.message || '未知错误'
       }
       try {
@@ -482,7 +482,7 @@ export default {
         } else if (errors.length > 0) {
           this.$message.error('导入失败：' + errors[0] + (errors.length > 1 ? ' 等' : '') + '。请确认 xDM-F(8003) 已启动且鉴权通过。')
         } else {
-          this.$message.warning('导入未成功，请确认 xDM-F(8003) 服务已启动。')
+          this.$message.warning('导入未成功，请稍后重试。')
         }
       } catch (e) {
         this.$message.error('导入失败：' + (e.response?.data?.message || e.message))

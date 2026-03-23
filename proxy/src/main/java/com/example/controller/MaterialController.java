@@ -31,7 +31,7 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialManagement/list")
     public Object getMaterialList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listMaterial();
+        if (xdmConfig.useMockForEntity("MaterialManagement")) return mockService.listMaterial();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = buildListBodyWithPageVO(requestBody, req);
         List<String> entities = entityMapping.getPreferredEntities("MaterialManagement", List.of("Material01", "Part", "MaterialManagement"));
@@ -45,7 +45,7 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialManagement/create")
     public Object addMaterial(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createMaterial(ensureMasterInBody(requestBody));
+        if (xdmConfig.useMockForEntity("MaterialManagement")) return mockService.createMaterial(ensureMasterInBody(requestBody));
         Map<String, Object> body = ensureMasterInBody(requestBody);
         HttpEntity<?> entity = new HttpEntity<>(body, buildForwardHeaders(req));
         List<String> entities = entityMapping.getPreferredEntities("MaterialManagement", List.of("Material01", "Part", "MaterialManagement"));
@@ -54,7 +54,7 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialManagement/update")
     public Object updateMaterial(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.updateMaterial(requestBody);
+        if (xdmConfig.useMockForEntity("MaterialManagement")) return mockService.updateMaterial(requestBody);
         List<String> entities = entityMapping.getPreferredEntities("MaterialManagement", List.of("Material01", "Part", "MaterialManagement"));
         for (String e : entities) {
             try {
@@ -66,7 +66,7 @@ public class MaterialController extends BaseXdmProxyController {
 
     @DeleteMapping("/dynamic/api/MaterialManagement/delete/{id}")
     public Object deleteMaterial(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("MaterialManagement")) {
             mockService.deleteMaterial(id);
             return Map.of("success", true, "message", "删除成功");
         }
@@ -82,7 +82,7 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialVersionManagement/list")
     public Object getMaterialVersionList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listMaterialVersion();
+        if (xdmConfig.useMockForEntity("MaterialVersionManagement")) return mockService.listMaterialVersion();
         HttpHeaders headers = buildForwardHeaders(req);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/MaterialVersionManagement/list",
             new HttpEntity<>(requestBody, headers));
@@ -90,14 +90,14 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialVersionManagement/create")
     public Object addMaterialVersion(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createMaterialVersion(requestBody);
+        if (xdmConfig.useMockForEntity("MaterialVersionManagement")) return mockService.createMaterialVersion(requestBody);
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/MaterialVersionManagement/create",
             new HttpEntity<>(ensureMasterInBody(requestBody), buildForwardHeaders(req)));
     }
 
     @PostMapping("/dynamic/api/MaterialCategoryManagement/list")
     public Object getMaterialCategoryList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listMaterialCategory();
+        if (xdmConfig.useMockForEntity("MaterialCategoryManagement")) return mockService.listMaterialCategory();
         HttpHeaders headers = buildForwardHeaders(req);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/MaterialCategoryManagement/list",
             new HttpEntity<>(requestBody, headers));
@@ -105,14 +105,14 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialCategoryManagement/create")
     public Object addMaterialCategory(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createMaterialCategory(requestBody);
+        if (xdmConfig.useMockForEntity("MaterialCategoryManagement")) return mockService.createMaterialCategory(requestBody);
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/MaterialCategoryManagement/create",
             new HttpEntity<>(ensureMasterInBody(requestBody), buildForwardHeaders(req)));
     }
 
     @DeleteMapping("/dynamic/api/MaterialCategoryManagement/delete/{id}")
     public Object deleteMaterialCategory(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("MaterialCategoryManagement")) {
             mockService.deleteMaterialCategory(id);
             return Map.of("success", true, "message", "删除成功");
         }
@@ -122,7 +122,7 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialBOMManagement/list")
     public Object getBOMList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listMaterialBOM();
+        if (xdmConfig.useMockForEntity("MaterialBOMManagement")) return mockService.listMaterialBOM();
         HttpHeaders headers = buildForwardHeaders(req);
         return postWith404Fallback(getBaseUrl() + "/dynamic/api/MaterialBOMManagement/list",
             new HttpEntity<>(requestBody, headers));
@@ -130,14 +130,14 @@ public class MaterialController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/MaterialBOMManagement/create")
     public Object createBOM(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createMaterialBOM(requestBody);
+        if (xdmConfig.useMockForEntity("MaterialBOMManagement")) return mockService.createMaterialBOM(requestBody);
         return postCreateWith404Fallback(getBaseUrl() + "/dynamic/api/MaterialBOMManagement/create",
             new HttpEntity<>(ensureMasterInBody(requestBody), buildForwardHeaders(req)));
     }
 
     @DeleteMapping("/dynamic/api/MaterialBOMManagement/delete/{id}")
     public Object deleteBOM(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("MaterialBOMManagement")) {
             mockService.deleteMaterialBOM(id);
             return Map.of("success", true, "message", "删除成功");
         }

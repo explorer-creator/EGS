@@ -7,10 +7,13 @@
     <!-- 限制 Referrer，减少向第三方发送来源信息 -->
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <!-- 仅允许连接同源及本地 API，屏蔽 rumt-zh.com 等第三方统计请求 -->
-    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' http://localhost:* https://localhost:* ws://localhost:* wss://localhost:*" />
-    <title>工业管理系统</title>
+    <!-- img-src 允许 Leaflet 加载 OSM 瓦片；connect-src 保留本地与 WS -->
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' http://localhost:* https://localhost:* ws://localhost:* wss://localhost:*; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline';" />
+    <title>丝路智联</title>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
     <!-- Network 筛选：在开发者工具 Network 的筛选框输入 /api 或 localhost 可只看业务接口 -->
   </head>
   <body>

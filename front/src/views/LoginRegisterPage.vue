@@ -2,7 +2,8 @@
   <div class="login-register-page">
     <BackgroundDecor />
     <div class="form-container">
-      <h1 class="title">工业管理系统</h1>
+      <h1 class="title">丝路智联</h1>
+      <p class="title-sub">国际物流 · 智慧连接 · 服务「跨境电商 + 海外仓」</p>
       <el-tabs v-model="activeTab">
         <el-tab-pane label="登录" name="login">
           <el-form :model="loginForm" label-width="80px" class="auth-form">
@@ -54,7 +55,7 @@
         </el-tab-pane>
       </el-tabs>
       <el-collapse>
-        <el-collapse-item title="xDM-F 配置（注册需先配置，遇 403 时填写）" name="xdm">
+        <el-collapse-item title="xDM-F 配置（注册需先配置，可选）" name="xdm">
           <el-form inline size="small">
             <el-form-item label="Cookie">
               <el-input v-model="xdmToken" type="textarea" :rows="1" placeholder="访问 8003 登录后 F12 复制 Cookie" style="width: 360px;" />
@@ -142,10 +143,10 @@ export default {
           this.$message.success('登录成功')
           this.$emit('login-success', user)
         } else {
-          this.$message.error(res.data?.message || '登录失败')
+          this.$message.warning(res.data?.message || '登录失败，请检查账号或稍后重试')
         }
       } catch (e) {
-        this.$message.error('登录失败：' + (e.response?.data?.message || e.message))
+        this.$message.warning('登录失败：' + (e.response?.data?.message || e.message || '网络异常'))
       } finally {
         this.loginLoading = false
       }
@@ -177,7 +178,7 @@ export default {
           }
           this.registerForm = { username: '', password: '', confirmPassword: '', gender: '', occupation: '', department: '', responsibleBusiness: '' }
         } catch (e) {
-          this.$message.error('注册失败：' + (e.response?.data?.message || e.message))
+          this.$message.warning('注册失败：' + (e.response?.data?.message || e.message || '网络异常'))
         } finally {
           this.registerLoading = false
         }
@@ -216,9 +217,18 @@ export default {
 }
 .title {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   font-size: 24px;
-  color: #303133;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #165dff;
+}
+.title-sub {
+  text-align: center;
+  margin: 0 0 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #909399;
 }
 .auth-form { margin-top: 16px; }
 </style>

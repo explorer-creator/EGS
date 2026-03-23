@@ -68,7 +68,7 @@ public class CvInspectionController extends BaseXdmProxyController {
 
     /**
      * PCB 裸板缺陷识别。
-     * 当前为演示模式（模拟检测），可替换为 PaddlePaddle/昇腾 Atlas 推理。
+     * 当前为模拟检测，可替换为 PaddlePaddle/昇腾 Atlas 推理。
      */
     @PostMapping(value = "/inspect", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String, Object> inspect(@RequestParam("file") MultipartFile file) {
@@ -117,7 +117,7 @@ public class CvInspectionController extends BaseXdmProxyController {
     }
 
     /**
-     * 模拟缺陷检测（演示用）。
+     * 模拟缺陷检测（算法占位）。
      * 可替换为：PaddlePaddle Inference、昇腾 Atlas CANN、ONNX Runtime 等。
      */
     private List<Map<String, Object>> simulateDefectDetection(byte[] imageBytes, int imgW, int imgH) {
@@ -150,7 +150,7 @@ public class CvInspectionController extends BaseXdmProxyController {
     @PostMapping("/sync-defects")
     public Map<String, Object> syncDefects(@RequestBody Map<String, Object> body, HttpServletRequest req) {
         if (cvConfig.isDemoMode()) {
-            return Map.of("success", false, "message", "演示模式下禁止同步，避免虚假数据进入生产系统。请接入 PaddlePaddle / 昇腾 Atlas 等真实 CV 模型后，在 application.yml 中设置 cv.demo-mode: false");
+            return Map.of("success", false, "message", "模拟检测模式下禁止同步，避免非产线数据进入生产系统。请接入 PaddlePaddle / 昇腾 Atlas 等 CV 模型后，在 application.yml 中设置 cv.demo-mode: false");
         }
 
         Object defectsObj = body != null ? body.get("defects") : null;

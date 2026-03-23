@@ -46,7 +46,7 @@
         <div class="chat-input-area">
           <el-input
             v-model="inputText"
-            placeholder="输入消息，或双击专业名词让我解释~"
+            placeholder="聊天 / 问延误（先 TMS 选运单）/ 双击名词解释"
             @keyup.enter.native="sendMessage"
           >
             <el-button slot="append" type="primary" :loading="chatLoading" @click="sendMessage">发送</el-button>
@@ -159,6 +159,39 @@ export default {
       this.scrollToBottom()
 
       try {
+        const tmsDelay = /延误|晚点|迟到|为什么.*(货|批)|这批货|运输.*慢|路上.*堵|ETA|运单.*晚/.test(text)
+        if (tmsDelay) {
+          const tid = (typeof localStorage !== 'undefined' && localStorage.getItem('tms_selected_trip_id')) || 'T-20250316-01'
+          const res = await this.$axios.post('/api/tms-smart/delay-insight', {
+            tripId: tid,
+            userQuestion: text
+          })
+          const d = res.data || res
+          if (d.success) {
+            let reply = d.explanation || ''
+            if (d.message && d.usedLlm === false) {
+              reply = (reply ? reply + '\n\n' : '') + '（' + d.message + '）'
+            }
+            reply += '\n\n— 运单 ' + tid + ' · 可在「智慧TMS → AI延误分析」查看详情与哈希存证'
+            this.messages.push({ role: 'robot', content: reply || d.message || '暂无解释' })
+          } else {
+            this.messages.push({ role: 'robot', content: '延误分析失败：' + (d.message || '未知错误') })
+          }
+          return
+        }
+
+        // 优先走 RAG：本地知识检索 + 千问（POST /api/rag/chat）；失败则回退直连小助手
+        try {
+          const resRag = await this.$axios.post('/api/rag/chat', { query: text })
+          const dr = resRag.data || resRag
+          if (dr.success && dr.answer) {
+            this.messages.push({ role: 'robot', content: dr.answer })
+            return
+          }
+        } catch (ragErr) {
+          console.debug('[RAG] 不可用，回退 /api/llm/chat', ragErr)
+        }
+
         const res = await this.$axios.post('/api/llm/chat', {
           message: text,
           explainTerm: false

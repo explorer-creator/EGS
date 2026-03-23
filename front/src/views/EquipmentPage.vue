@@ -1,7 +1,14 @@
 <template>
-  <div class="equipment-page">
+  <div class="equipment-page fs-page fs-page--factory">
+    <FactorySupplyHero
+      variant="factory"
+      kicker="智能工厂 · DIGITAL FACTORY"
+      title="设备孪生 · 全生命周期台账"
+      description="统一设备编码、位置与运维参数，支撑产线可视化与工序关联；数据可由代理服务或对接 xDM-F。"
+      :tags="['设备主数据', '批量导入导出', '工序—设备关联']"
+    />
     <!-- 设备列表（置顶，便于可视化已填信息） -->
-    <el-card title="设备列表" class="equipment-list-card">
+    <el-card title="设备列表" class="equipment-list-card fs-card">
       <div style="margin-bottom: 12px;">
         <span class="stat-item">设备总数：<strong>{{ equipmentList.length }}</strong></span>
         <el-button size="small" icon="el-icon-refresh" :loading="loading" @click="getEquipmentList" style="margin-left: 16px;">刷新列表</el-button>
@@ -147,6 +154,7 @@
 </template>
 
 <script>
+import FactorySupplyHero from '../components/FactorySupplyHero.vue'
 import { exportToCsv } from '../utils/exportCsv'
 import { parseCsvFile } from '../utils/parseCsv'
 import { parseListResponse } from '../utils/parseListResponse'
@@ -172,6 +180,7 @@ function buildListBody(conditions = []) {
 
 export default {
   name: 'EquipmentPage',
+  components: { FactorySupplyHero },
   data() {
     return {
       loading: false,
@@ -239,7 +248,7 @@ export default {
         this.equipmentList = [...tempItems, ...fromApi]
       } catch (err) {
         console.error('查询设备列表失败：', err)
-        this.$message.error('查询失败：' + (err.response ? err.response.status + ' - ' + (err.response.data?.message || err.response.statusText) : err.message))
+        this.$message.error('查询失败：' + (err.response && err.response.status === 403 ? '服务暂不可用，请稍后重试' : (err.response ? err.response.status + ' - ' + (err.response.data?.message || err.response.statusText) : err.message)))
         this.equipmentList = [...tempItems]
       } finally {
         this.loading = false
@@ -529,9 +538,25 @@ export default {
 </script>
 
 <style scoped>
-.equipment-page .el-card { margin-bottom: 20px; }
+.fs-page--factory .el-card.fs-card,
+.fs-page--factory >>> .el-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(14, 165, 233, 0.22);
+  box-shadow: 0 8px 28px rgba(8, 47, 73, 0.08);
+  overflow: hidden;
+}
+.fs-page--factory >>> .el-card__header {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, rgba(224, 242, 254, 0.65) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-bottom: 1px solid rgba(14, 165, 233, 0.15);
+}
 .equipment-form .el-form-item { margin-bottom: 12px; }
 .stat-item { margin-right: 24px; color: #606266; }
-.equipment-list-card { border-left: 4px solid #165DFF; }
-.empty-tip { padding: 24px; text-align: center; color: #909399; font-size: 13px; background: #f5f7fa; border-radius: 8px; margin-top: 12px; }
+.equipment-list-card {
+  border-left: 4px solid #0ea5e9 !important;
+  background: linear-gradient(180deg, rgba(240, 249, 255, 0.5) 0%, #fff 48px);
+}
+.empty-tip { padding: 24px; text-align: center; color: #909399; font-size: 13px; background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%); border-radius: 8px; margin-top: 12px; border: 1px dashed rgba(14, 165, 233, 0.25); }
 </style>

@@ -13,6 +13,11 @@ dist
 dist-ssr
 *.local
 
+# 环境变量（与仓库根 .gitignore 一致；勿提交含密钥的 .env*）
+.env
+.env.*
+!.env.example
+
 /cypress/videos/
 /cypress/screenshots/
 

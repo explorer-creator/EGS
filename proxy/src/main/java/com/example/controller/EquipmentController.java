@@ -32,7 +32,7 @@ public class EquipmentController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/EquipmentManagement/list")
     public Object getEquipmentList(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.listEquipment();
+        if (xdmConfig.useMockForEntity("EquipmentManagement")) return mockService.listEquipment();
         HttpHeaders headers = buildForwardHeaders(req);
         Map<String, Object> body = buildListBodyWithPageVO(requestBody, req);
         List<String> entities = entityMapping.getPreferredEntities("EquipmentManagement", List.of("EquipmentManagement"));
@@ -46,7 +46,7 @@ public class EquipmentController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/EquipmentManagement/create")
     public Object addEquipment(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.createEquipment(ensureMasterInBody(requestBody));
+        if (xdmConfig.useMockForEntity("EquipmentManagement")) return mockService.createEquipment(ensureMasterInBody(requestBody));
         Map<String, Object> body = ensureMasterInBody(requestBody);
         HttpEntity<?> entity = new HttpEntity<>(body, buildForwardHeaders(req));
         List<String> entities = entityMapping.getPreferredEntities("EquipmentManagement", List.of("EquipmentManagement"));
@@ -55,7 +55,7 @@ public class EquipmentController extends BaseXdmProxyController {
 
     @PostMapping("/dynamic/api/EquipmentManagement/update")
     public Object updateEquipment(@RequestBody Map<String, Object> requestBody, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) return mockService.updateEquipment(requestBody);
+        if (xdmConfig.useMockForEntity("EquipmentManagement")) return mockService.updateEquipment(requestBody);
         List<String> entities = entityMapping.getPreferredEntities("EquipmentManagement", List.of("EquipmentManagement"));
         for (String e : entities) {
             try {
@@ -67,7 +67,7 @@ public class EquipmentController extends BaseXdmProxyController {
 
     @DeleteMapping("/dynamic/api/EquipmentManagement/delete/{id}")
     public Object deleteEquipment(@PathVariable String id, HttpServletRequest req) {
-        if (xdmConfig.isMockMode()) {
+        if (xdmConfig.useMockForEntity("EquipmentManagement")) {
             mockService.deleteEquipment(id);
             return Map.of("success", true, "message", "删除成功");
         }

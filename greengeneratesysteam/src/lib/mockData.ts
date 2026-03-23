@@ -1,0 +1,153 @@
+export interface TimeSlot {
+  hour: string;
+  type: "peak" | "shoulder" | "valley";
+  price_per_kwh: number;
+  carbon_factor: number;
+}
+
+export interface SchedulePlan {
+  schedule_time: string;
+  est_energy_kwh: number;
+  est_cost_rmb: number;
+  est_carbon_kg: number;
+  ai_reasoning?: string;
+}
+
+export interface Order {
+  order_id: string;
+  product_name: string;
+  category: string;
+  priority: "high" | "medium" | "low";
+  original_plan: SchedulePlan;
+  ai_optimized_plan: SchedulePlan;
+  status: "pending" | "adopted";
+}
+
+export interface EnergyDataPoint {
+  time: string;
+  energy_kwh: number;
+  carbon_kg: number;
+  cost_rmb: number;
+}
+
+// 峰谷电价与碳排因子基准表 (24小时)
+export const timeSlots: TimeSlot[] = [
+  { hour: "00:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+  { hour: "01:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+  { hour: "02:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+  { hour: "03:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+  { hour: "04:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+  { hour: "05:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+  { hour: "06:00", type: "shoulder", price_per_kwh: 0.65, carbon_factor: 0.62 },
+  { hour: "07:00", type: "shoulder", price_per_kwh: 0.65, carbon_factor: 0.62 },
+  { hour: "08:00", type: "shoulder", price_per_kwh: 0.65, carbon_factor: 0.62 },
+  { hour: "09:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "10:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "11:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "12:00", type: "shoulder", price_per_kwh: 0.65, carbon_factor: 0.62 },
+  { hour: "13:00", type: "shoulder", price_per_kwh: 0.65, carbon_factor: 0.62 },
+  { hour: "14:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "15:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "16:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "17:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "18:00", type: "shoulder", price_per_kwh: 0.65, carbon_factor: 0.62 },
+  { hour: "19:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "20:00", type: "peak", price_per_kwh: 1.2, carbon_factor: 0.8 },
+  { hour: "21:00", type: "shoulder", price_per_kwh: 0.65, carbon_factor: 0.62 },
+  { hour: "22:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+  { hour: "23:00", type: "valley", price_per_kwh: 0.3, carbon_factor: 0.5 },
+];
+
+// 3 个待优化订单
+export const initialOrders: Order[] = [
+  {
+    order_id: "ORD-2026-889",
+    product_name: "工业级减速机壳体",
+    category: "热处理工序",
+    priority: "high",
+    original_plan: {
+      schedule_time: "14:00-18:00",
+      est_energy_kwh: 5000,
+      est_cost_rmb: 6000,
+      est_carbon_kg: 4000,
+    },
+    ai_optimized_plan: {
+      schedule_time: "00:00-04:00",
+      est_energy_kwh: 5000,
+      est_cost_rmb: 1500,
+      est_carbon_kg: 2500,
+      ai_reasoning:
+        "检测到热处理工序耗电量大（5000 kWh），当前排产处于峰电时段（14:00-18:00，电价 ¥1.2/kWh）。建议将全部热处理工序平移至夜间谷电时段（00:00-04:00，电价 ¥0.3/kWh），预计电费下降 75%（节省 ¥4500），同时夜间电网碳排因子降低 37.5%，减少碳排 1500 kg，助力工厂绿色 ESG 评分提升。",
+    },
+    status: "pending",
+  },
+  {
+    order_id: "ORD-2026-912",
+    product_name: "精密液压缸筒组件",
+    category: "电弧焊接工序",
+    priority: "high",
+    original_plan: {
+      schedule_time: "09:00-13:00",
+      est_energy_kwh: 3200,
+      est_cost_rmb: 3840,
+      est_carbon_kg: 2560,
+    },
+    ai_optimized_plan: {
+      schedule_time: "22:00-02:00",
+      est_energy_kwh: 3200,
+      est_cost_rmb: 960,
+      est_carbon_kg: 1600,
+      ai_reasoning:
+        "电弧焊接为高功率脉冲型用电，当前排产集中在上午峰电时段（09:00-13:00），与工厂其他设备形成用电叠加，加剧电网负荷峰值。建议分批次转移至夜间谷电段（22:00-02:00），电费降幅达 75%（节省 ¥2880），并降低碳排 960 kg，同时削减日间电网峰值负荷，符合电网调度激励政策。",
+    },
+    status: "pending",
+  },
+  {
+    order_id: "ORD-2026-956",
+    product_name: "高强度齿轮箱端盖",
+    category: "CNC 精加工",
+    priority: "medium",
+    original_plan: {
+      schedule_time: "19:00-23:00",
+      est_energy_kwh: 1800,
+      est_cost_rmb: 1980,
+      est_carbon_kg: 1350,
+    },
+    ai_optimized_plan: {
+      schedule_time: "02:00-06:00",
+      est_energy_kwh: 1800,
+      est_cost_rmb: 540,
+      est_carbon_kg: 900,
+      ai_reasoning:
+        "CNC 精加工对加工质量要求严苛，振动干扰敏感。当前排产处于晚间次峰段（19:00-23:00），厂区其他设备仍在运行，产生振动交叉干扰风险。建议平移至深夜谷电低振动段（02:00-06:00），不仅电费降低 72.7%（节省 ¥1440），还可减少因振动导致的废品返工率，碳排降低 450 kg，综合效益显著。",
+    },
+    status: "pending",
+  },
+];
+
+// 本月工厂能耗与碳排趋势数据 (最近 14 天)
+export const energyTrendData: EnergyDataPoint[] = [
+  { time: "3/7", energy_kwh: 18200, carbon_kg: 12800, cost_rmb: 19500 },
+  { time: "3/8", energy_kwh: 21500, carbon_kg: 15200, cost_rmb: 23800 },
+  { time: "3/9", energy_kwh: 19800, carbon_kg: 13900, cost_rmb: 21200 },
+  { time: "3/10", energy_kwh: 24100, carbon_kg: 17500, cost_rmb: 27300 },
+  { time: "3/11", energy_kwh: 22300, carbon_kg: 16100, cost_rmb: 25100 },
+  { time: "3/12", energy_kwh: 20700, carbon_kg: 14600, cost_rmb: 22400 },
+  { time: "3/13", energy_kwh: 26400, carbon_kg: 19200, cost_rmb: 30100 },
+  { time: "3/14", energy_kwh: 23100, carbon_kg: 16800, cost_rmb: 26200 },
+  { time: "3/15", energy_kwh: 25600, carbon_kg: 18700, cost_rmb: 29400 },
+  { time: "3/16", energy_kwh: 22900, carbon_kg: 16500, cost_rmb: 25800 },
+  { time: "3/17", energy_kwh: 27800, carbon_kg: 20300, cost_rmb: 32100 },
+  { time: "3/18", energy_kwh: 24500, carbon_kg: 17900, cost_rmb: 28600 },
+  { time: "3/19", energy_kwh: 29100, carbon_kg: 21600, cost_rmb: 34200 },
+  { time: "3/20", energy_kwh: 26700, carbon_kg: 19400, cost_rmb: 31500 },
+];
+
+// 工厂总览统计
+export const factoryStats = {
+  monthly_total_carbon_kg: 186400,
+  monthly_total_cost_rmb: 342800,
+  monthly_total_energy_kwh: 298600,
+  carbon_reduction_target_kg: 50000,
+  peak_ratio_percent: 62,
+};

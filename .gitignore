@@ -43,6 +43,9 @@ greengeneratesysteam/.env.local
 .DS_Store
 Thumbs.db
 
+# Office 打开文档时的临时锁文件，勿提交
+~$*
+
 # Frontend
 front/node_modules/
 front/dist/

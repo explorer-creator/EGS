@@ -4,7 +4,8 @@ server:
 
 # xDM-F 代理配置（可扩展：支持多租户、多环境）
 xdm:
-  # 全局：true=全部走 Mock（仅当 remote-entities 为空时生效）
+  # 全局：true=全部走 Mock（仅当 remote-entities 为空时生效）。
+  # 默认 true：无本机 8003/xDM-F 时评委可直接体验。若设为 false 且未开 8003，启动时会自动改回 Mock。
   mock-mode: ${XDM_MOCK_MODE:true}
   # 逗号分隔实体名；非空时仅这些走 8003，其余强制 Mock（与 TMS/WMS 等本地接口无关）
   # 例：仅登录/用户走真实 xDM：remote-entities: User_Infor

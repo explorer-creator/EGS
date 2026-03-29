@@ -38,11 +38,17 @@ EGSfb/
 2. 启动代理：`cd proxy && mvn spring-boot:run`
 3. 启动前端：`cd front && npm run dev`
 
+## 评委 / 公网演示说明
+
+- **GitHub 上的代码不会自动生成可点的演示站**；评委可 **克隆仓库后本地启动**（默认 **Mock**，**无需**本机 xDM-F 8003），见 [docs/deployment/github-push.md](docs/deployment/github-push.md)。
+- 若已部署到云服务器，请在 README 或仓库简介里写明 **公网访问地址**；无 8003 时请保持 `XDM_MOCK_MODE=true`（默认），或由代理在启动时检测端口后 **自动使用模拟数据**。
+
 ## 文档
 
 | 文档 | 说明 |
 |------|------|
 | [docs/README.md](docs/README.md) | **文档索引** |
+| [docs/deployment/github-push.md](docs/deployment/github-push.md) | **推送到 GitHub、评委体验方式** |
 | [docs/本地开发指南.md](docs/本地开发指南.md) | Mock、启动、常见问题 |
 | [docs/Git协作开发指南.md](docs/Git协作开发指南.md) | 分支与 PR |
 | [docs/阿里云部署指南.md](docs/阿里云部署指南.md) | 上云与 Nginx 示例 |

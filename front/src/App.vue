@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <!-- 背景音乐：需用户点击播放（浏览器策略）；音频在 public/music/musicnice.mp3 -->
+    <BackgroundMusic />
     <!-- 未登录：显示登录/注册页 -->
     <LoginRegisterPage v-if="!currentUser" @login-success="onLoginSuccess" @guest-enter="onGuestEnter" />
 
@@ -263,6 +265,7 @@ import WelcomeFireworks from './components/WelcomeFireworks.vue'
 import FeedbackBox from './components/FeedbackBox.vue'
 import RobotAgent from './components/RobotAgent.vue'
 import SilkRoadTradePanel from './components/SilkRoadTradePanel.vue'
+import BackgroundMusic from './components/BackgroundMusic.vue'
 import MulticulturalRibbon from './components/MulticulturalRibbon.vue'
 import { config } from './config'
 import { formatXdmTime } from './utils/xdmTime'
@@ -352,6 +355,7 @@ export default {
     FeedbackBox,
     RobotAgent,
     SilkRoadTradePanel,
+    BackgroundMusic,
     MulticulturalRibbon
   },
   provide() {

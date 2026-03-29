@@ -1,5 +1,29 @@
 <template>
-  <div class="bg-music-fab" :title="playing ? '暂停背景音乐' : '播放背景音乐'">
+  <div v-if="variant === 'entry'" class="bg-music-entry">
+    <p class="entry-demo-hint">（演示网页，如有报错属于鉴权问题）</p>
+    <div class="entry-music-row" :title="playing ? '暂停背景音乐' : '播放背景音乐'">
+      <button
+        type="button"
+        class="bg-music-btn"
+        :class="{ 'is-playing': playing }"
+        @click="toggle"
+        :aria-label="playing ? '暂停音乐' : '播放音乐'"
+      >
+        <i :class="playing ? 'el-icon-video-pause' : 'el-icon-video-play'"></i>
+        <span class="bg-music-label">背景音乐</span>
+      </button>
+      <span class="entry-music-tip">可选，需点击播放（浏览器策略）</span>
+    </div>
+    <audio
+      ref="audio"
+      :src="audioSrc"
+      loop
+      preload="metadata"
+      @play="playing = true"
+      @pause="playing = false"
+    />
+  </div>
+  <div v-else class="bg-music-fab" :title="playing ? '暂停背景音乐' : '播放背景音乐'">
     <button type="button" class="bg-music-btn" :class="{ 'is-playing': playing }" @click="toggle" :aria-label="playing ? '暂停音乐' : '播放音乐'">
       <i :class="playing ? 'el-icon-video-pause' : 'el-icon-video-play'"></i>
       <span class="bg-music-label">音乐</span>
@@ -18,6 +42,14 @@
 <script>
 export default {
   name: 'BackgroundMusic',
+  props: {
+    /** fab：右上角悬浮；entry：登录页入口提示内 */
+    variant: {
+      type: String,
+      default: 'fab',
+      validator: (v) => ['fab', 'entry'].includes(v)
+    }
+  },
   data() {
     return {
       playing: false
@@ -49,6 +81,31 @@ export default {
 </script>
 
 <style scoped>
+.bg-music-entry {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(22, 93, 255, 0.06), rgba(14, 75, 204, 0.05));
+  border: 1px solid rgba(22, 93, 255, 0.15);
+}
+.entry-demo-hint {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #64748b;
+}
+.entry-music-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+.entry-music-tip {
+  font-size: 12px;
+  color: #94a3b8;
+  flex: 1;
+  min-width: 0;
+}
 .bg-music-fab {
   position: fixed;
   z-index: 1998;

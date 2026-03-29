@@ -4,6 +4,7 @@
     <div class="form-container">
       <h1 class="title">丝路智联</h1>
       <p class="title-sub">国际物流 · 智慧连接 · 服务「跨境电商 + 海外仓」</p>
+      <BackgroundMusic variant="entry" />
       <el-tabs v-model="activeTab">
         <el-tab-pane label="登录" name="login">
           <el-form :model="loginForm" label-width="80px" class="auth-form">
@@ -72,6 +73,7 @@
 
 <script>
 import BackgroundDecor from '../components/BackgroundDecor.vue'
+import BackgroundMusic from '../components/BackgroundMusic.vue'
 import { config } from '../config'
 const TENANT_ID = config.tenantId
 
@@ -91,7 +93,7 @@ function buildCreateParams(data) {
 
 export default {
   name: 'LoginRegisterPage',
-  components: { BackgroundDecor },
+  components: { BackgroundDecor, BackgroundMusic },
   data() {
     return {
       xdmToken: localStorage.getItem('xdm_token') || '',

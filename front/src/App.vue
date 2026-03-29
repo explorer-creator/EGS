@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- 背景音乐：需用户点击播放（浏览器策略）；音频在 public/music/musicnice.mp3 -->
-    <BackgroundMusic />
+    <!-- 背景音乐：入口见 LoginRegisterPage；登录后主界面右上角 -->
+    <BackgroundMusic v-if="currentUser" />
     <!-- 未登录：显示登录/注册页 -->
     <LoginRegisterPage v-if="!currentUser" @login-success="onLoginSuccess" @guest-enter="onGuestEnter" />
 

@@ -5,10 +5,9 @@
         <h1 class="cover-title">丝路智联</h1>
         <p class="cover-sub">仓储 · 分拣 · 路径规划 · 制造协同 · 国际物流</p>
       </div>
-      <MulticulturalRibbon
-        class="about-mcr"
-        caption="面向一带一路与跨境电商场景，连接中国与亚欧多国市场；多元团队与沿线国家协作，共同提升供应链韧性与可视化水平（装饰示意）。"
-      />
+      <p class="about-carousel-caption">
+        面向一带一路与跨境电商场景，连接中国与亚欧多国市场；多元团队与沿线国家协作，共同提升供应链韧性与可视化水平（装饰示意）。
+      </p>
       <div class="intro-header">
         <i class="el-icon-office-building"></i>
         <h2>平台简介</h2>
@@ -61,10 +60,7 @@
 </template>
 
 <script>
-import MulticulturalRibbon from '../components/MulticulturalRibbon.vue'
-
 export default {
-  components: { MulticulturalRibbon },
   name: 'AboutPage'
 }
 </script>
@@ -77,8 +73,11 @@ export default {
 .intro-card {
   padding: 32px 40px;
 }
-.about-mcr {
+.about-carousel-caption {
   margin: 0 0 24px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #606266;
 }
 .cover-block {
   text-align: center;

@@ -46,7 +46,7 @@
             <el-tag size="mini" type="info">结构占比</el-tag>
           </div>
           <div class="chart-shell" :style="shellStyle">
-            <div ref="pieExportCat" class="chart-dom" />
+            <div ref="pieExportCat" class="chart-dom" :style="chartDomStyle" />
           </div>
         </el-card>
       </el-col>
@@ -57,7 +57,7 @@
             <el-tag size="mini" type="info">结构占比</el-tag>
           </div>
           <div class="chart-shell" :style="shellStyle">
-            <div ref="pieImportCat" class="chart-dom" />
+            <div ref="pieImportCat" class="chart-dom" :style="chartDomStyle" />
           </div>
         </el-card>
       </el-col>
@@ -71,7 +71,7 @@
             <el-tag size="mini" type="success">国别/区域</el-tag>
           </div>
           <div class="chart-shell" :style="shellStyle">
-            <div ref="pieExportReg" class="chart-dom" />
+            <div ref="pieExportReg" class="chart-dom" :style="chartDomStyle" />
           </div>
         </el-card>
       </el-col>
@@ -82,7 +82,7 @@
             <el-tag size="mini" type="success">国别/区域</el-tag>
           </div>
           <div class="chart-shell" :style="shellStyle">
-            <div ref="pieImportReg" class="chart-dom" />
+            <div ref="pieImportReg" class="chart-dom" :style="chartDomStyle" />
           </div>
         </el-card>
       </el-col>
@@ -219,7 +219,14 @@ export default {
   computed: {
     shellStyle() {
       return { height: this.chartHeightPx + 'px' }
-    }
+    },
+    /** 与 shell 同高，避免嵌套在 el-card 内 height:100% 不生效导致 ECharts 0 高度 */
+    chartDomStyle() {
+      return {
+        width: '100%',
+        height: this.chartHeightPx + 'px',
+      }
+    },
   },
   watch: {
     chartHeightPx() {
@@ -333,6 +340,7 @@ export default {
         ['exportReg', this.$refs.pieExportReg, '出口区域分布', d.exportByRegion, '东盟、欧盟、美国等区域合计'],
         ['importReg', this.$refs.pieImportReg, '进口区域分布', d.importByRegion, '来源地结构示意']
       ]
+      const fallbackH = this.chartHeightPx
       refs.forEach(([key, el, t, rows, sub]) => {
         if (!el) return
         if (this.charts[key]) {
@@ -340,8 +348,24 @@ export default {
             this.charts[key].dispose()
           } catch (e) { /* noop */ }
         }
-        const chart = echarts.init(el, null, { renderer: 'canvas' })
+        const w = Math.max(
+          Math.floor(el.clientWidth || el.offsetWidth || 0),
+          Math.floor(el.parentElement ? el.parentElement.clientWidth : 0),
+          200
+        )
+        const h = Math.max(
+          Math.floor(el.clientHeight || el.offsetHeight || 0),
+          fallbackH,
+          200
+        )
+        const chart = echarts.init(el, null, {
+          renderer: 'canvas',
+          width: w,
+          height: h,
+          devicePixelRatio: typeof window !== 'undefined' ? window.devicePixelRatio : 1
+        })
         chart.setOption(buildPieOption(t, rows, sub), { notMerge: true })
+        chart.resize({ width: w, height: h })
         this.charts[key] = chart
       })
     }
@@ -430,14 +454,15 @@ export default {
 .chart-shell {
   position: relative;
   width: 100%;
+  box-sizing: border-box;
   transition: height 0.25s ease;
 }
+/* 勿用 absolute 铺满：在 el-card / flex 下易出现 0×0，ECharts 画布空白 */
 .chart-dom {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  box-sizing: border-box;
 }
 
 .source-card {

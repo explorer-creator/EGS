@@ -1,13 +1,24 @@
 <template>
-  <div
-    class="robot-agent"
-    :style="agentStyle"
-    @mousedown="onDragStart"
-  >
-    <!-- 小机器人头像：全页面可拖拽 -->
+  <div class="robot-agent" :style="agentStyle">
+    <!-- 与智能体并排：全局搜索小框（不触发拖拽） -->
+    <div class="robot-agent-search-wrap" @mousedown.stop @click.stop>
+      <el-input
+        :value="searchKeyword"
+        placeholder="搜设备、物料…"
+        prefix-icon="el-icon-search"
+        size="mini"
+        clearable
+        class="robot-agent-search-input"
+        @input="onSearchKeywordInput"
+        @keyup.enter.native="$emit('search')"
+      />
+      <el-button type="primary" size="mini" icon="el-icon-search" circle class="robot-agent-search-btn" @click="$emit('search')" />
+    </div>
+    <!-- 小机器人头像：从此处拖拽 -->
     <div
       class="robot-avatar"
       :class="{ 'is-open': chatVisible }"
+      @mousedown="onDragStart"
       @click="onAvatarClick"
     >
       <div class="robot-face">
@@ -67,6 +78,10 @@ const GREETINGS = [
 
 export default {
   name: 'RobotAgent',
+  props: {
+    /** 与 App 顶栏搜索同步，小框展示 */
+    searchKeyword: { type: String, default: '' }
+  },
   data() {
     return {
       chatVisible: false,
@@ -105,8 +120,11 @@ export default {
     document.removeEventListener('mouseup', this.onDragEnd)
   },
   methods: {
+    onSearchKeywordInput(val) {
+      this.$emit('update:searchKeyword', val)
+    },
     onDragStart(e) {
-      if (e.target.closest('.chat-panel') || e.target.closest('.chat-input-area')) return
+      if (e.target.closest('.chat-panel') || e.target.closest('.chat-input-area') || e.target.closest('.robot-agent-search-wrap')) return
       this.isDragging = false
       this.dragStartX = e.clientX
       this.dragStartY = e.clientY
@@ -122,7 +140,8 @@ export default {
         this.hasDragged = true
       }
       if (this.isDragging) {
-        this.posX = Math.max(0, Math.min(window.innerWidth - 70, this.dragStartLeft + dx))
+        const barW = 260
+        this.posX = Math.max(0, Math.min(window.innerWidth - barW, this.dragStartLeft + dx))
         this.posY = Math.max(0, Math.min(window.innerHeight - 70, this.dragStartBottom - dy))
       }
     },
@@ -253,13 +272,41 @@ export default {
 .robot-agent {
   position: fixed;
   z-index: 999;
-  cursor: grab;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 8px;
+  cursor: default;
   user-select: none;
 }
-.robot-agent:active {
+.robot-agent-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(22, 93, 255, 0.18);
+  border: 1px solid rgba(22, 93, 255, 0.15);
+}
+.robot-agent-search-input {
+  width: 148px;
+}
+.robot-agent-search-input >>> .el-input__inner {
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+.robot-agent-search-btn {
+  flex-shrink: 0;
+  padding: 7px !important;
+}
+.robot-agent:active .robot-avatar {
   cursor: grabbing;
 }
 .robot-avatar {
+  flex-shrink: 0;
   width: 56px;
   height: 56px;
   background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
@@ -267,7 +314,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  cursor: grab;
   box-shadow: 0 4px 16px rgba(255, 154, 158, 0.5);
   transition: transform 0.2s;
   border: 3px solid #fff;

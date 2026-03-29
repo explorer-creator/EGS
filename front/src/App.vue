@@ -8,138 +8,94 @@
     <!-- 已登录：主界面 -->
     <template v-else>
       <BackgroundDecor />
-      <div class="main-content-layer app-layout" :class="{ 'app-layout--mobile': isMobileLayout }">
+      <div class="main-content-layer app-shell-v2" :class="{ 'app-shell-v2--mobile': isMobileLayout }">
         <!-- 欢迎烟花效果 -->
         <WelcomeFireworks v-if="showWelcome" :duration="5000" @done="showWelcome = false" />
-        <!-- 左侧：纵向主导航 -->
-        <aside class="layout-sidebar-left">
-          <div class="sidebar-brand">
-            <span class="sidebar-brand__mark">EGS</span>
-            <span class="sidebar-brand__sub">智慧制造</span>
+
+        <!-- 快看式：大黑框约 2/3 屏高；EGS 与工具条嵌入黑框角上 -->
+        <div class="kk-hero-shell">
+          <div class="kk-hero-brand">
+            <span class="kk-hero-brand__mark">EGS</span>
+            <span class="kk-hero-brand__sub">智慧制造</span>
           </div>
-        <el-menu
-          mode="vertical"
-          background-color="#165DFF"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          class="main-menu main-menu-vertical"
-          :default-active="leftMenuActive"
-          :key="'menu-left-' + currentPage"
-        >
-        <el-menu-item index="0" @click="currentPage = 'AboutPage'">平台介绍</el-menu-item>
-        <el-menu-item index="0b" @click="currentPage = 'PlanetReducerPage'">行星减速器原理</el-menu-item>
-        <el-menu-item index="0c" @click="currentPage = 'ProcessIntroPage'">工序与工艺介绍</el-menu-item>
-        <el-menu-item index="0d" @click="currentPage = 'ProductManufacturingPage'">产品制造问答</el-menu-item>
-        <el-menu-item index="0e" @click="currentPage = 'CvInspectionPage'">视觉质检</el-menu-item>
-        <el-menu-item index="green" class="menu-featured menu-featured-green" @click="currentPage = 'GreenCarbonFootprintPage'">
-          <i class="el-icon-data-analysis"></i> 绿能排产演示
-        </el-menu-item>
-        <el-menu-item index="trade-viz" class="menu-featured menu-featured-trade" @click="currentPage = 'TradeVisualizationPage'">
-          <i class="el-icon-pie-chart"></i> 贸易可视化
-        </el-menu-item>
-        <el-menu-item index="ai-chain" class="menu-featured menu-featured-aichain" @click="currentPage = 'AiBlockchainHubPage'">
-          <i class="el-icon-link"></i> AI+链集成
-        </el-menu-item>
-        <el-menu-item index="rail-ops" class="menu-featured menu-featured-rail" @click="currentPage = 'CrossBorderRailHubPage'">
-          <i class="el-icon-data-board"></i> 丝路班列协同
-        </el-menu-item>
-        <el-menu-item index="report" class="menu-featured menu-featured-report" @click="currentPage = 'ReportExportPage'">
-          <i class="el-icon-document-checked"></i> 生成综合报告
-        </el-menu-item>
-        <el-menu-item index="material-a" class="menu-featured menu-featured-mat" @click="currentPage = 'MaterialImageModulePage'">
-          <i class="el-icon-picture"></i> 智能物料配图
-        </el-menu-item>
-      </el-menu>
-        </aside>
-
-        <div class="layout-main">
-      <MulticulturalRibbon compact />
-
-      <!-- 页面内容区：keep-alive 保留产品问答等页面状态，跳转后返回不丢失 -->
-      <div class="page-content" :class="{ 'page-content-transparent': isIntroPage }">
-        <keep-alive :include="keepAlivePages">
-          <component :is="currentPage" :key="currentPage" />
-        </keep-alive>
-      </div>
-        </div>
-
-        <aside class="layout-sidebar-right">
-          <div class="sidebar-brand sidebar-brand--right">
-            <span class="sidebar-brand__mark">运营</span>
-            <span class="sidebar-brand__sub">工厂 · 供应链 · 物流</span>
-          </div>
-        <el-menu
-          mode="vertical"
-          background-color="#165DFF"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          class="main-menu main-menu-vertical main-menu-side-right"
-          :default-active="rightMenuActive"
-          :key="'menu-right-' + currentPage"
-        >
-        <el-submenu index="cluster-factory" popper-class="menu-popper-factory">
-          <template slot="title">
-            <span class="menu-cluster-title"><i class="el-icon-cpu"></i> 智能工厂</span>
-          </template>
-          <el-menu-item index="1" @click="currentPage = 'EquipmentPage'">设备孪生 · 台账</el-menu-item>
-          <el-menu-item index="3" @click="currentPage = 'ProcedurePage'">工序编排 · 执行</el-menu-item>
-        </el-submenu>
-        <el-submenu index="cluster-supply" popper-class="menu-popper-supply">
-          <template slot="title">
-            <span class="menu-cluster-title"><i class="el-icon-s-cooperation"></i> 智慧供应链</span>
-          </template>
-          <el-menu-item index="2" @click="currentPage = 'MaterialPage'">物料中枢 · 主数据</el-menu-item>
-          <el-menu-item index="4" @click="currentPage = 'PlanPage'">工艺路线 · 编排</el-menu-item>
-        </el-submenu>
-        <el-menu-item index="logistics" class="menu-featured menu-featured-logistics" @click="currentPage = 'SmartLogisticsPage'">
-          <i class="el-icon-truck"></i> 智慧物流
-        </el-menu-item>
-        <el-menu-item index="warehouse-dispatch" class="menu-featured menu-featured-dispatch" @click="currentPage = 'WarehouseDispatchPage'">
-          <i class="el-icon-office-building"></i> 仓库调度
-        </el-menu-item>
-        <el-menu-item index="wms-smart" class="menu-featured menu-featured-wms" @click="currentPage = 'WmsSmartSystemPage'">
-          <i class="el-icon-box"></i> 智能WMS
-        </el-menu-item>
-        <el-menu-item index="tms-smart" class="menu-featured menu-featured-tms" @click="currentPage = 'TmsSmartPage'">
-          <i class="el-icon-position"></i> 智慧TMS
-        </el-menu-item>
-        <el-menu-item index="multimodal" class="menu-featured menu-featured-mm" @click="currentPage = 'MultimodalLogisticsPage'">
-          <i class="el-icon-camera"></i> 多模态报单
-        </el-menu-item>
-        <el-menu-item index="map" @click="currentPage = 'MapTransportPage'">
-          <i class="el-icon-location"></i> 运输地图
-        </el-menu-item>
-        <el-menu-item index="pet" class="menu-featured menu-featured-pet" @click="currentPage = 'PetExpressPage'">
-          <span class="pet-menu-label">🐾 爱宠专送</span>
-        </el-menu-item>
-        <el-menu-item index="guide" @click="currentPage = 'GuidePage'">使用指南</el-menu-item>
-        <el-menu-item index="arch" @click="currentPage = 'ArchitecturePage'">架构先进性</el-menu-item>
-      </el-menu>
-          <div class="right-rail-tools">
-          <div class="right-rail-title">快捷</div>
-          <el-input
-            v-model="searchKeyword"
-            placeholder="搜索设备、物料、工序…"
-            prefix-icon="el-icon-search"
-            size="small"
-            clearable
-            class="rail-search-input"
-            @keyup.enter.native="onSearch"
-          />
-          <el-button type="primary" size="small" icon="el-icon-search" class="rail-search-btn" @click="onSearch">搜索</el-button>
-          <el-button size="small" icon="el-icon-download" class="rail-export-btn" @click="exportModelsToDisk">导出模型</el-button>
-          <div class="rail-user" @click="profileDrawerVisible = true">
-            <el-avatar :size="40" icon="el-icon-user-solid" />
-            <div class="rail-user-text">
-              <span class="rail-user-name">{{ currentUser.isGuest ? '访客' : (currentUser.username || currentUser.user_name || '用户') }}</span>
-              <span class="rail-user-hint">点击账户</span>
+          <div class="kk-hero-toolbar">
+            <el-button size="mini" icon="el-icon-download" class="kk-hero-toolbar-btn" @click="exportModelsToDisk">导出</el-button>
+            <div class="rail-user kk-hero-user" @click="profileDrawerVisible = true">
+              <el-avatar :size="28" icon="el-icon-user-solid" />
+              <span class="rail-user-name kk-hero-user-name">{{ currentUser.isGuest ? '访客' : (currentUser.username || currentUser.user_name || '用户') }}</span>
             </div>
           </div>
+          <nav class="kk-pill-strip kk-pill-strip--top" aria-label="主导航">
+            <button
+              v-for="item in leftNavItems"
+              :key="item.idx"
+              type="button"
+              class="kk-pill"
+              :class="['kk-pill--' + (item.tone || 'default'), { 'is-active': leftMenuActive === item.idx }]"
+              @click="onLeftMenuSelect(item.idx)"
+            >
+              <i v-if="item.icon" :class="item.icon"></i>
+              {{ item.label }}
+            </button>
+          </nav>
+          <div class="kk-hero-carousel-wrap">
+            <SilkAiCarousel hero fill-container embedded class="app-hero-carousel" />
           </div>
-        </aside>
+          <nav class="kk-pill-strip kk-pill-strip--bottom" aria-label="运营与物流">
+            <button
+              v-for="item in rightNavItems"
+              :key="item.idx"
+              type="button"
+              class="kk-pill"
+              :class="['kk-pill--' + (item.tone || 'default'), { 'is-active': rightMenuActive === item.idx }]"
+              @click="onRightMenuSelect(item.idx)"
+            >
+              <i v-if="item.icon" :class="item.icon"></i>
+              {{ item.label }}
+            </button>
+          </nav>
+        </div>
 
-        <!-- 小机器人智能体：全页面可拖拽 -->
-        <RobotAgent ref="robotAgent" />
+        <!-- 页面内容区：左右留白放装饰图（不遮挡中间正文）；窄屏改为横幅双图 -->
+        <div class="app-page-with-gutters" :class="{ 'app-page-with-gutters--stack': isMobileLayout }">
+          <div v-if="isMobileLayout" class="app-page-gutter-mobile" aria-hidden="true">
+            <div class="app-page-gutter-mobile__cell">
+              <div class="app-page-gutter-mobile__pulse app-page-gutter-mobile__pulse--delay">
+                <img class="app-page-gutter-mobile__img" :src="pageMascotPair.left" alt="" draggable="false" />
+              </div>
+            </div>
+            <div class="app-page-gutter-mobile__cell">
+              <div class="app-page-gutter-mobile__pulse">
+                <img class="app-page-gutter-mobile__img" :src="pageMascotPair.right" alt="" draggable="false" />
+              </div>
+            </div>
+          </div>
+          <aside v-if="!isMobileLayout" class="app-page-gutter app-page-gutter--left" aria-hidden="true">
+            <div class="app-page-gutter__pulse app-page-gutter__pulse--delay">
+              <img class="app-page-gutter__img" :src="pageMascotPair.left" alt="" draggable="false" />
+            </div>
+          </aside>
+          <div
+            class="page-content"
+            :class="{ 'page-content-transparent': isIntroPage, 'page-content--pb-shell': currentPage === 'PictureBookLikeShellDemoPage' }"
+          >
+            <keep-alive :include="keepAlivePages">
+              <component :is="currentPage" :key="currentPage" />
+            </keep-alive>
+          </div>
+          <aside v-if="!isMobileLayout" class="app-page-gutter app-page-gutter--right" aria-hidden="true">
+            <div class="app-page-gutter__pulse">
+              <img class="app-page-gutter__img" :src="pageMascotPair.right" alt="" draggable="false" />
+            </div>
+          </aside>
+        </div>
+
+        <!-- 小机器人智能体：左邻搜索小框，可拖拽 -->
+        <RobotAgent
+          ref="robotAgent"
+          :search-keyword.sync="searchKeyword"
+          @search="onSearch"
+        />
         <!-- 反馈箱：右下角悬浮按钮 -->
         <FeedbackBox />
         <!-- 右侧固定入口：丝路物流贸易态势大屏（3D 国际线路 + 国内低空地图） -->
@@ -252,6 +208,7 @@ import AiBlockchainHubPage from './views/AiBlockchainHubPage.vue'
 import CrossBorderRailHubPage from './views/CrossBorderRailHubPage.vue'
 import ReportExportPage from './views/ReportExportPage.vue'
 import MaterialImageModulePage from './views/MaterialImageModulePage.vue'
+import PictureBookLikeShellDemoPage from './views/PictureBookLikeShellDemoPage.vue'
 import SmartLogisticsPage from './views/SmartLogisticsPage.vue'
 import WarehouseDispatchPage from './views/WarehouseDispatchPage.vue'
 import WmsSmartSystemPage from './views/WmsSmartSystemPage.vue'
@@ -266,8 +223,10 @@ import FeedbackBox from './components/FeedbackBox.vue'
 import RobotAgent from './components/RobotAgent.vue'
 import SilkRoadTradePanel from './components/SilkRoadTradePanel.vue'
 import BackgroundMusic from './components/BackgroundMusic.vue'
-import MulticulturalRibbon from './components/MulticulturalRibbon.vue'
+import SilkAiCarousel from './components/SilkAiCarousel.vue'
 import { config } from './config'
+
+import { pageMascotPairForKey } from './utils/mascotPair'
 import { formatXdmTime } from './utils/xdmTime'
 import { parseListResponse } from './utils/parseListResponse'
 import { getTempEquipmentList, getTempMaterialList, getTempProcedureList, getTempRouteList } from './utils/tempStorage'
@@ -291,6 +250,7 @@ const SEARCHABLE_PAGES = [
   { keywords: ['丝路', '班列', '中欧', '海外仓', '跨境', '电商', '协同', '分拣', '路线优化', '可视化', '游戏', '翻译'], page: 'CrossBorderRailHubPage', typeLabel: '丝路班列协同', title: '跨境仓线与班列协同大屏', sub: 'WMS 分拣 + TMS 路径优化，双语与丝路接力挑战' },
   { keywords: ['综合报告', '生成报告', '商业', '分析', '报价', '敏感度', '利润', '市场策略', 'Excel', 'PDF', '设备', '物料', '工序', '工艺'], page: 'ReportExportPage', typeLabel: '生成综合报告', title: '生成综合报告', sub: '绿色流程与设备/物料/工序，导出 Excel 与 PDF' },
   { keywords: ['配图', '物料图', '关键词', '抓取', '万相', '通义', '原料图', '设备图', '模块A'], page: 'MaterialImageModulePage', typeLabel: '智能物料配图', title: '关键词工业配图（模块A）', sub: '爬取+AI 生图，需本地 Python 服务' },
+  { keywords: ['主内容布局', '黑框', '平台与展示', '制造与协同', '丝路扩展', '布局演示'], page: 'PictureBookLikeShellDemoPage', typeLabel: '布局演示', title: '主内容布局', sub: '上下分区入口 + 中间业务区' },
   { keywords: ['智慧物流', '物流', '仓储', 'WMS', '分拣', '路径', 'AGV', '库位', '入库', '出库', 'OCR', '视觉识别', 'YOLO', '运筹优化', '预测分析', 'NLP', '自然语言', '物流AI', '千问', 'Whisper', '语音调度', '意图识别', 'VRP', 'OR-Tools', 'Gurobi', '高德', '路线规划', '需求预测', '时序', 'Forecast', 'Prophet', '单量预测', '3D', '沙盘', '数字孪生', '人工智能'], page: 'SmartLogisticsPage', typeLabel: '智慧物流', title: '智慧物流', sub: 'WMS、分拣、A*、AI+3D 沙盘、需求预测与AI接口映射' },
   { keywords: ['仓库调度', '出仓', '中转', '干线', '最优路线', '压力', '可行性', 'Dijkstra'], page: 'WarehouseDispatchPage', typeLabel: '仓库调度', title: '仓库调度', sub: '出仓记录、最短路径、中转压力与可视化' },
   { keywords: ['智能WMS', 'WMS', '货位', '货到人', 'AGV', '穿梭车', '机械臂', '数字孪生', '周转率', '拣货路径', '仓储管理'], page: 'WmsSmartSystemPage', typeLabel: '智能WMS', title: '智能仓储管理系统', sub: '动态货位、货到人调度、数字孪生监控' },
@@ -343,6 +303,7 @@ export default {
     CrossBorderRailHubPage,
     ReportExportPage,
     MaterialImageModulePage,
+    PictureBookLikeShellDemoPage,
     SmartLogisticsPage,
     WarehouseDispatchPage,
     WmsSmartSystemPage,
@@ -356,7 +317,7 @@ export default {
     RobotAgent,
     SilkRoadTradePanel,
     BackgroundMusic,
-    MulticulturalRibbon
+    SilkAiCarousel
   },
   provide() {
     return {
@@ -395,7 +356,8 @@ export default {
         AiBlockchainHubPage: 'ai-chain',
         CrossBorderRailHubPage: 'rail-ops',
         ReportExportPage: 'report',
-        MaterialImageModulePage: 'material-a'
+        MaterialImageModulePage: 'material-a',
+        PictureBookLikeShellDemoPage: 'pb-shell'
       }
       return map[this.currentPage] || ''
     },
@@ -419,14 +381,18 @@ export default {
       return map[this.currentPage] || ''
     },
     isIntroPage() {
-      return ['AboutPage', 'PlanetReducerPage', 'ProcessIntroPage', 'ProductManufacturingPage', 'CvInspectionPage', 'GreenProductionPage', 'GreenCarbonFootprintPage', 'BusinessAnalysisPage', 'TradeVisualizationPage', 'AiBlockchainHubPage', 'CrossBorderRailHubPage', 'ReportExportPage', 'MaterialImageModulePage', 'SmartLogisticsPage', 'WarehouseDispatchPage', 'WmsSmartSystemPage', 'TmsSmartPage', 'MultimodalLogisticsPage', 'MapTransportPage', 'PetExpressPage', 'GuidePage', 'ArchitecturePage'].includes(this.currentPage)
+      return ['AboutPage', 'PlanetReducerPage', 'ProcessIntroPage', 'ProductManufacturingPage', 'CvInspectionPage', 'GreenProductionPage', 'GreenCarbonFootprintPage', 'BusinessAnalysisPage', 'TradeVisualizationPage', 'AiBlockchainHubPage', 'CrossBorderRailHubPage', 'ReportExportPage', 'MaterialImageModulePage', 'PictureBookLikeShellDemoPage', 'SmartLogisticsPage', 'WarehouseDispatchPage', 'WmsSmartSystemPage', 'TmsSmartPage', 'MultimodalLogisticsPage', 'MapTransportPage', 'PetExpressPage', 'GuidePage', 'ArchitecturePage'].includes(this.currentPage)
     },
     keepAlivePages() {
-      return 'ProductManufacturingPage,GreenProductionPage,GreenCarbonFootprintPage,BusinessAnalysisPage,TradeVisualizationPage,AiBlockchainHubPage,CrossBorderRailHubPage,ReportExportPage,MaterialImageModulePage,SmartLogisticsPage,WarehouseDispatchPage,WmsSmartSystemPage,TmsSmartPage,MultimodalLogisticsPage,MapTransportPage,PetExpressPage'
+      return 'ProductManufacturingPage,GreenProductionPage,GreenCarbonFootprintPage,BusinessAnalysisPage,TradeVisualizationPage,AiBlockchainHubPage,CrossBorderRailHubPage,ReportExportPage,MaterialImageModulePage,PictureBookLikeShellDemoPage,SmartLogisticsPage,WarehouseDispatchPage,WmsSmartSystemPage,TmsSmartPage,MultimodalLogisticsPage,MapTransportPage,PetExpressPage'
     },
     /** 窄屏与 CSS 媒体查询双保险，避免侧栏 min-width 挤成两列 */
     isMobileLayout() {
       return this.layoutViewportWidth <= 1024
+    },
+    /** 按当前页面名稳定哈希选两张不同图：每页固定一对，页与页不同 */
+    pageMascotPair() {
+      return pageMascotPairForKey(this.currentPage)
     }
   },
   data() {
@@ -452,7 +418,36 @@ export default {
         department: '',
         responsible_business: '',
         newPassword: ''
-      }
+      },
+      leftNavItems: [
+        { idx: '0', label: '平台介绍', tone: 'default' },
+        { idx: '0b', label: '行星减速器原理', tone: 'default' },
+        { idx: '0c', label: '工序与工艺介绍', tone: 'default' },
+        { idx: '0d', label: '产品制造问答', tone: 'default' },
+        { idx: '0e', label: '视觉质检', tone: 'default' },
+        { idx: 'green', label: '绿能排产演示', icon: 'el-icon-data-analysis', tone: 'green' },
+        { idx: 'trade-viz', label: '贸易可视化', icon: 'el-icon-pie-chart', tone: 'trade' },
+        { idx: 'ai-chain', label: 'AI+链集成', icon: 'el-icon-link', tone: 'aichain' },
+        { idx: 'rail-ops', label: '丝路班列协同', icon: 'el-icon-data-board', tone: 'rail' },
+        { idx: 'report', label: '生成综合报告', icon: 'el-icon-document-checked', tone: 'report' },
+        { idx: 'material-a', label: '智能物料配图', icon: 'el-icon-picture', tone: 'mat' },
+        { idx: 'pb-shell', label: '主内容布局', icon: 'el-icon-menu', tone: 'default' }
+      ],
+      rightNavItems: [
+        { idx: '1', label: '设备孪生 · 台账', icon: 'el-icon-cpu', tone: 'default' },
+        { idx: '3', label: '工序编排 · 执行', icon: 'el-icon-s-operation', tone: 'default' },
+        { idx: '2', label: '物料中枢 · 主数据', icon: 'el-icon-s-cooperation', tone: 'default' },
+        { idx: '4', label: '工艺路线 · 编排', icon: 'el-icon-share', tone: 'default' },
+        { idx: 'logistics', label: '智慧物流', icon: 'el-icon-truck', tone: 'logistics' },
+        { idx: 'warehouse-dispatch', label: '仓库调度', icon: 'el-icon-office-building', tone: 'dispatch' },
+        { idx: 'wms-smart', label: '智能WMS', icon: 'el-icon-box', tone: 'wms' },
+        { idx: 'tms-smart', label: '智慧TMS', icon: 'el-icon-position', tone: 'tms' },
+        { idx: 'multimodal', label: '多模态报单', icon: 'el-icon-camera', tone: 'mm' },
+        { idx: 'map', label: '运输地图', icon: 'el-icon-location', tone: 'default' },
+        { idx: 'pet', label: '🐾 爱宠专送', tone: 'pet' },
+        { idx: 'guide', label: '使用指南', tone: 'default' },
+        { idx: 'arch', label: '架构先进性', tone: 'default' }
+      ]
     }
   },
   mounted() {
@@ -476,6 +471,44 @@ export default {
     syncViewportWidth() {
       if (typeof window === 'undefined') return
       this.layoutViewportWidth = window.innerWidth
+    },
+    /** Element UI 菜单须用 @select，仅用子项 @click 时选中态与 currentPage 可能不同步，导致「点了菜单页面不变」 */
+    onLeftMenuSelect(index) {
+      const map = {
+        '0': 'AboutPage',
+        '0b': 'PlanetReducerPage',
+        '0c': 'ProcessIntroPage',
+        '0d': 'ProductManufacturingPage',
+        '0e': 'CvInspectionPage',
+        green: 'GreenCarbonFootprintPage',
+        'trade-viz': 'TradeVisualizationPage',
+        'ai-chain': 'AiBlockchainHubPage',
+        'rail-ops': 'CrossBorderRailHubPage',
+        report: 'ReportExportPage',
+        'material-a': 'MaterialImageModulePage',
+        'pb-shell': 'PictureBookLikeShellDemoPage'
+      }
+      const page = map[index]
+      if (page) this.currentPage = page
+    },
+    onRightMenuSelect(index) {
+      const map = {
+        '1': 'EquipmentPage',
+        '2': 'MaterialPage',
+        '3': 'ProcedurePage',
+        '4': 'PlanPage',
+        logistics: 'SmartLogisticsPage',
+        'warehouse-dispatch': 'WarehouseDispatchPage',
+        'wms-smart': 'WmsSmartSystemPage',
+        'tms-smart': 'TmsSmartPage',
+        multimodal: 'MultimodalLogisticsPage',
+        map: 'MapTransportPage',
+        pet: 'PetExpressPage',
+        guide: 'GuidePage',
+        arch: 'ArchitecturePage'
+      }
+      const page = map[index]
+      if (page) this.currentPage = page
     },
     onLoginSuccess(user) {
       this.currentUser = user
@@ -612,6 +645,113 @@ export default {
 </script>
 
 <style>
+/* 移动端全屏与安全区：避免横向溢出与刘海遮挡 */
+#app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+/* 中间正文 + 左右留白装饰（与正文并排，不叠在卡片上） */
+.app-page-with-gutters {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
+.app-page-with-gutters--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+.app-page-gutter-mobile {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: min(5vw, 24px);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px 2px;
+  flex-shrink: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.app-page-gutter-mobile__cell {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 46%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.app-page-gutter-mobile__pulse {
+  transform-origin: 50% 88%;
+  animation: app-gutter-pulse 3.6s ease-in-out infinite;
+}
+.app-page-gutter-mobile__pulse--delay {
+  animation-delay: -1.8s;
+}
+.app-page-gutter-mobile__img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(26vw, 150px);
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+  filter: saturate(1.05) drop-shadow(0 6px 16px rgba(30, 27, 75, 0.12));
+}
+.app-page-gutter {
+  flex: 0 0 clamp(108px, 18vw, 240px);
+  max-width: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.app-page-gutter__pulse {
+  transform-origin: 50% 88%;
+  animation: app-gutter-pulse 3.6s ease-in-out infinite;
+}
+.app-page-gutter__pulse--delay {
+  animation-delay: -1.8s;
+}
+@keyframes app-gutter-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+.app-page-gutter__img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(58vh, 560px);
+  object-fit: contain;
+  object-position: center;
+  /* 浅色渐变底上弱化白边；复杂实景图可换透明 PNG */
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+  filter: saturate(1.05) drop-shadow(0 10px 28px rgba(30, 27, 75, 0.12));
+}
+
 .page-content {
   margin: 20px;
   padding: 20px;
@@ -619,14 +759,224 @@ export default {
   border-radius: 8px;
   background: #fff;
 }
+.app-page-with-gutters .page-content {
+  flex: 1;
+  min-width: 0;
+  margin: 16px 6px 20px;
+}
 .page-content-transparent {
   background: transparent !important;
   border-color: transparent !important;
+}
+/* 主内容布局：去掉白卡片外框，让壳层铺满主栏 */
+.page-content--pb-shell {
+  margin: 8px 12px 20px;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
 }
 .main-content-layer {
   position: relative;
   z-index: 1;
 }
+
+/* 全站壳：黑框主视觉 + 页面内容（顶栏已并入黑框角 / 搜索并入智能体） */
+.app-shell-v2 {
+  --sidebar-right-w: 0px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 4px 12px 20px;
+  padding-left: max(12px, env(safe-area-inset-left, 0px));
+  padding-right: max(12px, env(safe-area-inset-right, 0px));
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  align-items: stretch;
+}
+.app-shell-v2 > .kk-hero-shell {
+  flex-shrink: 0;
+  width: 100%;
+}
+/* 快看式主视觉：约 2/3 视口高，上下胶囊嵌入黑框；角标与工具条叠在框内 */
+.kk-hero-shell {
+  position: relative;
+  height: 66vh;
+  min-height: 280px;
+  max-height: min(920px, 80vh);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(165deg, #12121a 0%, #06060a 100%);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.kk-hero-brand {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: none;
+}
+.kk-hero-brand__mark {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-shadow:
+    0 2px 14px rgba(0, 0, 0, 0.9),
+    0 0 2px rgba(0, 0, 0, 0.95);
+}
+.kk-hero-brand__sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.85);
+}
+.kk-hero-toolbar {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 8;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  max-width: calc(100% - 120px);
+  pointer-events: auto;
+}
+.kk-hero-toolbar-btn {
+  color: #fff !important;
+  background: linear-gradient(145deg, rgba(194, 65, 12, 0.85) 0%, rgba(234, 88, 12, 0.8) 50%, rgba(185, 28, 28, 0.85) 100%) !important;
+  border: 1px solid rgba(253, 186, 116, 0.55) !important;
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.25);
+}
+.kk-hero-toolbar-btn:hover {
+  background: linear-gradient(145deg, #ea580c 0%, #f97316 45%, #ef4444 100%) !important;
+  border-color: rgba(255, 237, 213, 0.65) !important;
+}
+.kk-hero-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(145deg, rgba(120, 53, 15, 0.55) 0%, rgba(154, 52, 18, 0.5) 100%);
+  border: 1px solid rgba(255, 149, 99, 0.45);
+  transition: background 0.15s, border-color 0.15s;
+}
+.kk-hero-user:hover {
+  background: linear-gradient(145deg, rgba(234, 88, 12, 0.55) 0%, rgba(220, 38, 38, 0.5) 100%);
+  border-color: rgba(253, 186, 116, 0.55);
+}
+.kk-hero-user-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 88px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kk-hero-carousel-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.kk-pill-strip {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 10px 12px;
+  z-index: 3;
+}
+.kk-pill-strip--top {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+  padding-top: 52px;
+  padding-bottom: 12px;
+}
+.kk-pill-strip--bottom {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+  padding-top: 12px;
+}
+.kk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 149, 99, 0.55);
+  background: linear-gradient(145deg, rgba(194, 65, 12, 0.72) 0%, rgba(234, 88, 12, 0.65) 45%, rgba(185, 28, 28, 0.7) 100%);
+  color: rgba(255, 255, 255, 0.98);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.12s;
+  font-family: inherit;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.22);
+}
+.kk-pill:hover {
+  border-color: rgba(253, 186, 116, 0.95);
+  background: linear-gradient(145deg, #ea580c 0%, #f97316 42%, #ef4444 100%);
+  box-shadow: 0 4px 18px rgba(249, 115, 22, 0.45);
+}
+.kk-pill.is-active {
+  background: linear-gradient(145deg, #fb923c 0%, #f97316 38%, #ef4444 72%, #dc2626 100%);
+  border-color: rgba(255, 237, 213, 0.55);
+  color: #fff;
+  box-shadow:
+    0 4px 20px rgba(249, 115, 22, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+.kk-pill.is-active i {
+  color: #fff !important;
+}
+.kk-pill i {
+  color: rgba(255, 247, 237, 0.95);
+  font-size: 13px;
+}
+/* 各 tone 仅在橙红系内微调描边，保持统一暖色 */
+.kk-pill--green:not(.is-active),
+.kk-pill--trade:not(.is-active),
+.kk-pill--aichain:not(.is-active),
+.kk-pill--rail:not(.is-active),
+.kk-pill--report:not(.is-active),
+.kk-pill--mat:not(.is-active),
+.kk-pill--logistics:not(.is-active),
+.kk-pill--dispatch:not(.is-active),
+.kk-pill--wms:not(.is-active),
+.kk-pill--tms:not(.is-active),
+.kk-pill--mm:not(.is-active),
+.kk-pill--pet:not(.is-active) {
+  border-color: rgba(255, 159, 107, 0.5);
+}
+.app-hero-carousel {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+  min-height: 0;
+  align-self: stretch;
+}
+
 /* 左导航 + 主内容 + 右快捷栏 */
 .app-layout {
   display: flex;
@@ -773,8 +1123,9 @@ export default {
   color: #94a3b8;
   margin-top: 2px;
 }
-/* 丝路贸易悬浮条让出右侧栏宽度 */
-.app-layout .silk-road-panel-root .edge-trigger {
+/* 丝路贸易悬浮条：有侧栏时让出宽度；新壳无侧栏时贴右 */
+.app-layout .silk-road-panel-root .edge-trigger,
+.app-shell-v2 .silk-road-panel-root .edge-trigger {
   right: var(--sidebar-right-w);
 }
 .main-menu-vertical.main-menu {
@@ -952,7 +1303,51 @@ export default {
     margin: 8px;
     padding: 12px;
   }
-  .app-layout .silk-road-panel-root .edge-trigger {
+  .app-shell-v2 .page-content {
+    margin: 8px;
+    padding: 12px;
+  }
+  .app-page-with-gutters .page-content {
+    margin: 8px;
+    padding: 12px;
+  }
+  .kk-hero-shell {
+    height: min(52vh, 420px);
+    min-height: 220px;
+    max-height: 72vh;
+    border-radius: 12px;
+  }
+  .kk-pill {
+    padding: 5px 10px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  .kk-pill i {
+    font-size: 12px;
+  }
+  .kk-pill-strip {
+    gap: 6px 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .kk-pill-strip--top {
+    padding-top: 46px;
+  }
+  .kk-hero-brand__mark {
+    font-size: 18px;
+  }
+  .kk-hero-toolbar {
+    max-width: calc(100% - 96px);
+  }
+  .kk-hero-user-name {
+    max-width: 64px;
+  }
+  .app-shell-v2 {
+    padding-left: max(6px, env(safe-area-inset-left, 0px));
+    padding-right: max(6px, env(safe-area-inset-right, 0px));
+  }
+  .app-layout .silk-road-panel-root .edge-trigger,
+  .app-shell-v2 .silk-road-panel-root .edge-trigger {
     right: max(8px, env(safe-area-inset-right, 0px));
     top: auto;
     bottom: max(100px, calc(88px + env(safe-area-inset-bottom, 0px)));
@@ -1023,7 +1418,8 @@ export default {
   margin: 8px;
   padding: 12px;
 }
-.app-layout.app-layout--mobile .silk-road-panel-root .edge-trigger {
+.app-layout.app-layout--mobile .silk-road-panel-root .edge-trigger,
+.app-shell-v2.app-shell-v2--mobile .silk-road-panel-root .edge-trigger {
   right: max(8px, env(safe-area-inset-right, 0px));
   top: auto;
   bottom: max(100px, calc(88px + env(safe-area-inset-bottom, 0px)));
@@ -1034,7 +1430,8 @@ export default {
   font-size: 11px;
   z-index: 2100;
 }
-.app-layout.app-layout--mobile .feedback-trigger {
+.app-layout.app-layout--mobile .feedback-trigger,
+.app-shell-v2.app-shell-v2--mobile .feedback-trigger {
   right: max(10px, env(safe-area-inset-right, 0px)) !important;
   bottom: max(10px, env(safe-area-inset-bottom, 0px)) !important;
   width: 48px !important;

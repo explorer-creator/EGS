@@ -3,37 +3,12 @@
     <div class="mcr-bg" aria-hidden="true" />
     <div class="mcr-inner">
       <p v-if="compact" class="mcr-compact-line">{{ compactLine }}</p>
-      <div class="mcr-globe-wrap" aria-hidden="true">
-        <svg class="mcr-globe" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="mcrGlobeG" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#38bdf8" />
-              <stop offset="100%" stop-color="#6366f1" />
-            </linearGradient>
-          </defs>
-          <circle cx="24" cy="24" r="20" fill="url(#mcrGlobeG)" opacity="0.35" />
-          <path fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.2" d="M8 24h32M24 8c-4 8-4 24 0 32M24 8c4 8 4 24 0 32" />
-          <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" />
-        </svg>
-      </div>
-      <!-- 抽象人物剪影：不同比例与肤色，象征多元团队（非写实肖像） -->
-      <div class="mcr-people" aria-hidden="true">
-        <svg class="mcr-svg" viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
-          <g v-for="(p, i) in silhouettes" :key="i" :transform="'translate(' + p.x + ',0)'">
-            <ellipse :cx="p.cx" cy="14" rx="11" ry="12" :fill="p.skin" opacity="0.95" />
-            <path
-              :fill="p.cloth"
-              d="M2 32 Q12 26 22 32 L26 68 L18 70 L14 44 L10 70 L2 68 Z"
-              opacity="0.92"
-            />
-            <ellipse v-if="p.hat" :cx="p.cx" cy="6" rx="13" ry="4" :fill="p.hat" opacity="0.85" />
-          </g>
-        </svg>
-      </div>
-      <div class="mcr-flags" role="list">
+
+      <!-- 国家码分上下两排，避免挤在同一行 -->
+      <div class="mcr-flags mcr-flags--top" role="list" aria-label="沿线国家（上）">
         <span
-          v-for="(f, i) in corridorFlags"
-          :key="i"
+          v-for="(f, i) in flagsTop"
+          :key="'t-' + i"
           class="mcr-flag"
           role="listitem"
           :title="f.name + ' · ' + f.nameEn"
@@ -42,6 +17,50 @@
           <span class="mcr-flag-code">{{ f.code }}</span>
         </span>
       </div>
+
+      <div class="mcr-center">
+        <div class="mcr-globe-wrap" aria-hidden="true">
+          <svg class="mcr-globe" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="mcrGlobeG" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="100%" stop-color="#6366f1" />
+              </linearGradient>
+            </defs>
+            <circle cx="24" cy="24" r="20" fill="url(#mcrGlobeG)" opacity="0.35" />
+            <path fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.2" d="M8 24h32M24 8c-4 8-4 24 0 32M24 8c4 8 4 24 0 32" />
+            <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" />
+          </svg>
+        </div>
+        <!-- 抽象人物剪影：不同比例与肤色，象征多元团队（非写实肖像） -->
+        <div class="mcr-people" aria-hidden="true">
+          <svg class="mcr-svg" viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg">
+            <g v-for="(p, i) in silhouettes" :key="i" :transform="'translate(' + p.x + ',0)'">
+              <ellipse :cx="p.cx" cy="14" rx="11" ry="12" :fill="p.skin" opacity="0.95" />
+              <path
+                :fill="p.cloth"
+                d="M2 32 Q12 26 22 32 L26 68 L18 70 L14 44 L10 70 L2 68 Z"
+                opacity="0.92"
+              />
+              <ellipse v-if="p.hat" :cx="p.cx" cy="6" rx="13" ry="4" :fill="p.hat" opacity="0.85" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="mcr-flags mcr-flags--bottom" role="list" aria-label="沿线国家（下）">
+        <span
+          v-for="(f, i) in flagsBottom"
+          :key="'b-' + i"
+          class="mcr-flag"
+          role="listitem"
+          :title="f.name + ' · ' + f.nameEn"
+        >
+          <span class="mcr-flag-emoji" aria-hidden="true">{{ f.emoji }}</span>
+          <span class="mcr-flag-code">{{ f.code }}</span>
+        </span>
+      </div>
+
       <p v-if="caption" class="mcr-caption">{{ caption }}</p>
     </div>
   </div>
@@ -59,6 +78,14 @@ export default {
     caption: { type: String, default: '' },
     compactLine: { type: String, default: '🌏 全球协作 · 多元文化 · 丝路沿线伙伴' },
     ariaLabel: { type: String, default: '全球协作与丝路沿线国家' }
+  },
+  computed: {
+    flagsTop() {
+      return this.corridorFlags.slice(0, 4)
+    },
+    flagsBottom() {
+      return this.corridorFlags.slice(4)
+    }
   },
   data() {
     return {
@@ -119,9 +146,9 @@ export default {
 .mcr-inner {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px 20px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
   padding: 14px 18px;
   z-index: 1;
   color: #f8fafc;
@@ -138,11 +165,16 @@ export default {
   margin-bottom: 0;
 }
 .mcr--compact .mcr-inner {
-  padding: 8px 14px;
-  gap: 10px 14px;
+  padding: 10px 14px;
+  gap: 8px;
 }
-.mcr--compact .mcr-compact-line ~ .mcr-globe-wrap {
-  margin-top: 0;
+.mcr-center {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px 24px;
+  min-height: 48px;
 }
 .mcr-globe-wrap {
   flex-shrink: 0;
@@ -158,9 +190,9 @@ export default {
   height: 32px;
 }
 .mcr-people {
-  flex: 1 1 180px;
+  flex: 1 1 200px;
   min-width: 0;
-  max-width: 280px;
+  max-width: 320px;
 }
 .mcr-svg {
   width: 100%;
@@ -174,20 +206,27 @@ export default {
   max-height: 40px;
   max-width: 200px;
 }
-/* 顶栏紧凑模式：保留地球与国旗带，省略人物剪影以省高 */
+/* 顶栏紧凑模式：省略人物剪影以省高 */
 .mcr--compact .mcr-people {
   display: none;
 }
-.mcr--compact .mcr-flags {
+.mcr--compact .mcr-center {
+  min-height: 36px;
   justify-content: flex-start;
 }
 .mcr-flags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px 10px;
   align-items: center;
-  justify-content: flex-end;
-  flex: 1 1 200px;
+  justify-content: center;
+  width: 100%;
+}
+.mcr-flags--top {
+  padding-bottom: 2px;
+}
+.mcr-flags--bottom {
+  padding-top: 2px;
 }
 .mcr-flag {
   display: inline-flex;
@@ -217,7 +256,7 @@ export default {
 .mcr-caption {
   width: 100%;
   margin: 0;
-  padding-top: 4px;
+  padding-top: 8px;
   font-size: 12px;
   line-height: 1.5;
   opacity: 0.88;

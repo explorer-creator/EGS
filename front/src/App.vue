@@ -6,7 +6,7 @@
     <!-- 已登录：主界面 -->
     <template v-else>
       <BackgroundDecor />
-      <div class="main-content-layer app-layout">
+      <div class="main-content-layer app-layout" :class="{ 'app-layout--mobile': isMobileLayout }">
         <!-- 欢迎烟花效果 -->
         <WelcomeFireworks v-if="showWelcome" :duration="5000" @done="showWelcome = false" />
         <!-- 左侧：纵向主导航 -->
@@ -419,10 +419,15 @@ export default {
     },
     keepAlivePages() {
       return 'ProductManufacturingPage,GreenProductionPage,GreenCarbonFootprintPage,BusinessAnalysisPage,TradeVisualizationPage,AiBlockchainHubPage,CrossBorderRailHubPage,ReportExportPage,MaterialImageModulePage,SmartLogisticsPage,WarehouseDispatchPage,WmsSmartSystemPage,TmsSmartPage,MultimodalLogisticsPage,MapTransportPage,PetExpressPage'
+    },
+    /** 窄屏与 CSS 媒体查询双保险，避免侧栏 min-width 挤成两列 */
+    isMobileLayout() {
+      return this.layoutViewportWidth <= 1024
     }
   },
   data() {
     return {
+      layoutViewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1200,
       searchKeyword: '',
       searchLoading: false,
       searchDialogVisible: false,
@@ -447,6 +452,9 @@ export default {
     }
   },
   mounted() {
+    this.syncViewportWidth()
+    window.addEventListener('resize', this.syncViewportWidth, { passive: true })
+    window.addEventListener('orientationchange', this.syncViewportWidth, { passive: true })
     const saved = localStorage.getItem('current_user')
     if (saved) {
       try {
@@ -456,7 +464,15 @@ export default {
       }
     }
   },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.syncViewportWidth)
+    window.removeEventListener('orientationchange', this.syncViewportWidth)
+  },
   methods: {
+    syncViewportWidth() {
+      if (typeof window === 'undefined') return
+      this.layoutViewportWidth = window.innerWidth
+    },
     onLoginSuccess(user) {
       this.currentUser = user
       this.showWelcome = true
@@ -871,10 +887,10 @@ export default {
 .result-title { flex: 1; font-weight: 500; }
 .result-sub { flex-shrink: 0; font-size: 12px; color: #909399; }
 
-/* —— 移动端 / 窄屏：三栏改纵向，避免左右栏与主内容挤在同一行 —— */
-@media screen and (max-width: 768px) {
+/* —— 移动端 / 平板竖屏：三栏纵向；勿限制侧栏高度，否则 el-submenu 展开被裁切 —— */
+@media screen and (max-width: 1024px) {
   .app-layout {
-    flex-direction: column;
+    flex-direction: column !important;
     align-items: stretch;
     min-height: 100vh;
     width: 100%;
@@ -882,34 +898,45 @@ export default {
     overflow-x: hidden;
     --sidebar-right-w: 0px;
   }
-  /* 主内容在上，先读正文再展开菜单 */
   .layout-main {
     order: 1;
     flex: 1 1 auto;
-    width: 100%;
-    min-width: 0;
+    width: 100% !important;
+    min-width: 0 !important;
   }
   .layout-sidebar-left {
     order: 2;
-    flex: 0 0 auto;
-    width: 100%;
-    min-width: 0;
-    max-height: min(40vh, 320px);
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
     box-shadow: 0 4px 16px rgba(22, 93, 255, 0.12);
   }
   .layout-sidebar-right {
     order: 3;
-    flex: 0 0 auto;
-    width: 100%;
-    min-width: 0;
-    max-height: min(45vh, 380px);
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
     border-left: none;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 -4px 20px rgba(22, 93, 255, 0.1);
   }
   .main-menu-vertical {
-    max-height: min(38vh, 300px);
+    max-height: none !important;
+    overflow-y: visible !important;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+  }
+  .main-menu-vertical .el-submenu .el-menu {
+    overflow: visible !important;
+  }
+  .main-menu-vertical .el-submenu__title {
+    touch-action: manipulation;
   }
   .sidebar-brand {
     padding: 12px 14px 10px;
@@ -921,7 +948,6 @@ export default {
     margin: 8px;
     padding: 12px;
   }
-  /* 丝路贸易侧条：不占右侧栏宽度，改贴底避免挡两列菜单 */
   .app-layout .silk-road-panel-root .edge-trigger {
     right: max(8px, env(safe-area-inset-right, 0px));
     top: auto;
@@ -933,12 +959,81 @@ export default {
     font-size: 11px;
     z-index: 2100;
   }
-  /* 右下角反馈钮略上移，避免与系统手势条重叠 */
   .feedback-trigger {
     right: max(10px, env(safe-area-inset-right, 0px)) !important;
     bottom: max(10px, env(safe-area-inset-bottom, 0px)) !important;
     width: 48px !important;
     height: 48px !important;
   }
+}
+/* JS 检测窄屏时再加类，与上面规则一致（双保险） */
+.app-layout.app-layout--mobile {
+  flex-direction: column !important;
+  align-items: stretch;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  --sidebar-right-w: 0px;
+}
+.app-layout.app-layout--mobile .layout-main {
+  order: 1;
+  flex: 1 1 auto;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+.app-layout.app-layout--mobile .layout-sidebar-left {
+  order: 2;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  overflow: visible !important;
+  box-shadow: 0 4px 16px rgba(22, 93, 255, 0.12);
+}
+.app-layout.app-layout--mobile .layout-sidebar-right {
+  order: 3;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  overflow: visible !important;
+  border-left: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -4px 20px rgba(22, 93, 255, 0.1);
+}
+.app-layout.app-layout--mobile .main-menu-vertical {
+  max-height: none !important;
+  overflow-y: visible !important;
+  overflow-x: hidden;
+}
+.app-layout.app-layout--mobile .main-menu-vertical .el-submenu .el-menu {
+  overflow: visible !important;
+}
+.app-layout.app-layout--mobile .main-menu-vertical .el-submenu__title {
+  touch-action: manipulation;
+}
+.app-layout.app-layout--mobile .page-content {
+  margin: 8px;
+  padding: 12px;
+}
+.app-layout.app-layout--mobile .silk-road-panel-root .edge-trigger {
+  right: max(8px, env(safe-area-inset-right, 0px));
+  top: auto;
+  bottom: max(100px, calc(88px + env(safe-area-inset-bottom, 0px)));
+  transform: none;
+  width: 40px;
+  min-height: 88px;
+  padding: 8px 4px;
+  font-size: 11px;
+  z-index: 2100;
+}
+.app-layout.app-layout--mobile .feedback-trigger {
+  right: max(10px, env(safe-area-inset-right, 0px)) !important;
+  bottom: max(10px, env(safe-area-inset-bottom, 0px)) !important;
+  width: 48px !important;
+  height: 48px !important;
 }
 </style>

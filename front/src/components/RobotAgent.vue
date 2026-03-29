@@ -91,7 +91,7 @@ export default {
     }
   },
   mounted() {
-    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+    if (typeof window !== 'undefined' && window.innerWidth <= 1024) {
       this.posX = 12
       this.posY = 100
     }

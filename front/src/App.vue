@@ -870,4 +870,75 @@ export default {
 .result-type { flex-shrink: 0; font-size: 12px; color: #909399; width: 70px; }
 .result-title { flex: 1; font-weight: 500; }
 .result-sub { flex-shrink: 0; font-size: 12px; color: #909399; }
+
+/* —— 移动端 / 窄屏：三栏改纵向，避免左右栏与主内容挤在同一行 —— */
+@media screen and (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    --sidebar-right-w: 0px;
+  }
+  /* 主内容在上，先读正文再展开菜单 */
+  .layout-main {
+    order: 1;
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+  }
+  .layout-sidebar-left {
+    order: 2;
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    max-height: min(40vh, 320px);
+    box-shadow: 0 4px 16px rgba(22, 93, 255, 0.12);
+  }
+  .layout-sidebar-right {
+    order: 3;
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+    max-height: min(45vh, 380px);
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 20px rgba(22, 93, 255, 0.1);
+  }
+  .main-menu-vertical {
+    max-height: min(38vh, 300px);
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar-brand {
+    padding: 12px 14px 10px;
+  }
+  .sidebar-brand__mark {
+    font-size: 18px;
+  }
+  .page-content {
+    margin: 8px;
+    padding: 12px;
+  }
+  /* 丝路贸易侧条：不占右侧栏宽度，改贴底避免挡两列菜单 */
+  .app-layout .silk-road-panel-root .edge-trigger {
+    right: max(8px, env(safe-area-inset-right, 0px));
+    top: auto;
+    bottom: max(100px, calc(88px + env(safe-area-inset-bottom, 0px)));
+    transform: none;
+    width: 40px;
+    min-height: 88px;
+    padding: 8px 4px;
+    font-size: 11px;
+    z-index: 2100;
+  }
+  /* 右下角反馈钮略上移，避免与系统手势条重叠 */
+  .feedback-trigger {
+    right: max(10px, env(safe-area-inset-right, 0px)) !important;
+    bottom: max(10px, env(safe-area-inset-bottom, 0px)) !important;
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
 </style>

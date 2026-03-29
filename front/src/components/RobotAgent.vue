@@ -91,6 +91,10 @@ export default {
     }
   },
   mounted() {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      this.posX = 12
+      this.posY = 100
+    }
     this.startGreetTimer()
     document.addEventListener('mousemove', this.onDragMove)
     document.addEventListener('mouseup', this.onDragEnd)

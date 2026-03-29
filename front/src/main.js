@@ -6,12 +6,21 @@ import './assets/showcase-overrides.css'
 import axios from 'axios'
 import { sanitizeApiError } from './utils/apiError'
 import { installShowcaseMessage } from './utils/showcaseMessage'
+import { installStaticDemoMock } from './staticDemoApi'
+
+if (import.meta.env.VITE_STATIC_DEMO === 'true') {
+  const b = import.meta.env.BASE_URL || '/'
+  if (b !== '/') {
+    axios.defaults.baseURL = b.replace(/\/$/, '')
+  }
+  installStaticDemoMock()
+}
 
 Vue.use(ElementUI)
 installShowcaseMessage()
 Vue.config.productionTip = false
 
-// 不设 baseURL：请求走相对路径 /api/...，由 Vite 代理到 8080，再由后端转发到 8003
+// 默认不设 baseURL：/api 由 Vite 代理到 8080。GitHub Pages 静态演示（VITE_STATIC_DEMO）下会设置 BASE_URL 以匹配 /EGS/ 子路径。
 Vue.prototype.$axios = axios
 
 // 若有 xDM-F Token 或 Cookie，随请求带给后端，由后端转发到 8003

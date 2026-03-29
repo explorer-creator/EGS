@@ -1,0 +1,43 @@
+# 构建 front 静态演示（VITE_STATIC_DEMO）并推送到 gh-pages 分支，供 GitHub Pages 托管。
+# 使用前请在仓库 Settings → Pages 中选择 branch: gh-pages / (root)。
+
+name: Deploy EGS static demo (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'front/**'
+      - '.github/workflows/deploy-egs-demo-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-demo
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: front/package-lock.json
+
+      - name: Install & build (demo mode)
+        working-directory: front
+        run: npm ci && npm run build:demo
+
+      - name: Push to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./front/dist
+          publish_branch: gh-pages
+          force_orphan: true

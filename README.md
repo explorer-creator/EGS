@@ -41,6 +41,7 @@ EGSfb/
 ## 评委 / 公网演示说明
 
 - **GitHub 上的代码不会自动生成可点的演示站**；评委可 **克隆仓库后本地启动**（默认 **Mock**，**无需**本机 xDM-F 8003），见 [docs/deployment/github-push.md](docs/deployment/github-push.md)。
+- **仅前端静态站（无 Java、无自己的服务器）**：`cd front && npm run build:demo`，可发布到 GitHub Pages，评委用浏览器打开 `https://<用户>.github.io/EGS/` 即可浏览（数据为内置演示快照），详见 [docs/deployment/github-pages-static-demo.md](docs/deployment/github-pages-static-demo.md)。
 - 若已部署到云服务器，请在 README 或仓库简介里写明 **公网访问地址**；无 8003 时请保持 `XDM_MOCK_MODE=true`（默认），或由代理在启动时检测端口后 **自动使用模拟数据**。
 
 ## 文档

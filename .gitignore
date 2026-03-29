@@ -22,10 +22,11 @@ pnpm-debug.log*
 .env
 .env.local
 .env.*.local
-# Vite 前端：忽略所有环境文件，例外 .env.example
+# Vite 前端：忽略所有环境文件，例外 .env.example、.env.demo（GitHub Pages 静态演示）
 front/.env
 front/.env.*
 !front/.env.example
+!front/.env.demo
 # 其他子目录本地配置
 A/.env
 greengeneratesysteam/.env.local

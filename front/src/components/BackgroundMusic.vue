@@ -108,16 +108,30 @@ export default {
 }
 .bg-music-fab {
   position: fixed;
-  z-index: 1998;
+  /* 高于丝路贸易边缘条(2000/2100) */
+  z-index: 2200;
+  /* 桌面端避免与右侧深蓝侧栏同色叠在一起不易发现 */
+  left: max(12px, env(safe-area-inset-left, 0px));
+  right: auto;
   top: max(12px, env(safe-area-inset-top, 0px));
-  right: max(12px, env(safe-area-inset-right, 0px));
+}
+
+/* 窄屏：与底部「反馈」同侧堆叠，拇指区域可见 */
+@media screen and (max-width: 1024px) {
+  .bg-music-fab {
+    left: auto;
+    top: auto;
+    /* 反馈约 48px + bottom 10px + 间距 */
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    right: max(12px, env(safe-area-inset-right, 0px));
+  }
 }
 .bg-music-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(22, 93, 255, 0.92), rgba(14, 75, 204, 0.95));
   color: #fff;
